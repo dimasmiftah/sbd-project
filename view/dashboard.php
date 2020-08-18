@@ -13,9 +13,9 @@ if ($_SESSION['role'] == "") {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="../Asset/css/base.css">
-  <link rel="stylesheet" href="../Asset/css/mobile.css">
-  <link rel="stylesheet" href="../Asset/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../asset/css/base.css">
+  <link rel="stylesheet" href="../asset/css/mobile.css">
+  <link rel="stylesheet" href="../asset/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <title>SBD-Akademik</title>
   <style>
@@ -38,7 +38,7 @@ if ($_SESSION['role'] == "") {
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <div> Hi! <?php echo $_SESSION['role'] ?> </div>
-        <div class="logout"><a href="../Auth/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></div>
+        <div class="logout"><a href="../auth/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></div>
       </form>
     </div>
   </nav>
@@ -55,7 +55,7 @@ if ($_SESSION['role'] == "") {
           <a class="nav-link active sidebar" href="#" role="tab" aria-selected="true" id="link_dashboard"> <i class="fas fa-th-large"></i> Dashboard</a>
           <a class="nav-link sidebar" href="barang.php" role="tab" aria-selected="false" id="link_barang"> <i class="fas fa-box-open"></i> Barang</a>
           <a class="nav-link sidebar" href="pengguna.php" role="tab" aria-selected="false" id="link_user"><i class="fas fa-users"></i> Pengguna</a>'
-          <a class="nav-link sidebar" href="transaksi.php" role="tab" aria-selected="false"><i class="fas fa-shopping-cart"></i> Transaksi</a>
+          <a class="nav-link sidebar" href="perkuliahan.php" role="tab" aria-selected="false"><i class="fas fa-shopping-cart"></i> Transaksi</a>
         </div>
       </div>
       <div class="col-9">
@@ -76,7 +76,7 @@ if ($_SESSION['role'] == "") {
                           <div class="data-wrapper-card-dashbord">
                             <h4> Barang<br>Stok Tipis </h4>
                             <?php
-                            include '../Auth/koneksi.php';
+                            include '../auth/koneksi.php';
                             $jumlah = mysqli_query($koneksi, "select COUNT(*) AS jumlah from barang where stok <= 5");
                             while ($row = mysqli_fetch_array($jumlah)) {
                               echo "<P> " . $row['jumlah'] . " Barang</P>";
@@ -99,7 +99,7 @@ if ($_SESSION['role'] == "") {
                           <div class="data-wrapper-card-dashbord">
                             <h4> Jumlah<br>Kasir </h4>
                             <?php
-                            include '../Auth/koneksi.php';
+                            include '../auth/koneksi.php';
                             $jumlah = mysqli_query($koneksi, "select COUNT(*) AS jumlah from user where role='kasir'");
                             while ($row = mysqli_fetch_array($jumlah)) {
                               echo "<P> " . $row['jumlah'] . " Orang</P>";
@@ -111,7 +111,7 @@ if ($_SESSION['role'] == "") {
                     </a>
                   </div>
                   <div class="col-4">
-                    <a href="transaksi.php" class="wrapper-card-dashbord kotak-item" style="background:#19AF5D;">
+                    <a href="perkuliahan.php" class="wrapper-card-dashbord kotak-item" style="background:#19AF5D;">
                       <div class="row">
                         <div class="col-6">
                           <div class="avatar-wrapper-card-dashbord">
@@ -122,7 +122,7 @@ if ($_SESSION['role'] == "") {
                           <div class="data-wrapper-card-dashbord">
                             <h4> Transaksi</br>Miggu Ini </h4>
                             <?php
-                            include '../Auth/koneksi.php';
+                            include '../auth/koneksi.php';
                             $jumlah = mysqli_query($koneksi, "select COUNT(*) AS jumlah from transaksi WHERE YEARWEEK(`tanggal`, 1) = YEARWEEK(CURDATE(), 1)");
                             while ($row = mysqli_fetch_array($jumlah)) {
                               echo "<P> " . $row['jumlah'] . " Transaksi</P>";
@@ -194,7 +194,7 @@ if ($_SESSION['role'] == "") {
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="../Asset/js/bootstrap.min.js"></script>
+  <script src="../asset/js/bootstrap.min.js"></script>
 </body>
 
 </html>

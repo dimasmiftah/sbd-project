@@ -1,7 +1,7 @@
-<?php 
-$koneksi = mysqli_connect("localhost","root","", "tubes_so");
+<?php
+$koneksi = mysqli_connect("localhost", "root", "", "universitas");
 
 // Check connection
-if (mysqli_connect_errno()){
+if (mysqli_connect_errno()) {
 	echo "Koneksi database gagal : " . mysqli_connect_error();
 }

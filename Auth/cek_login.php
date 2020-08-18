@@ -30,17 +30,17 @@ if ($cek > 0) {
 		$_SESSION['username'] = $username;
 		$_SESSION['role'] = "admin";
 		// alihkan ke halaman dashboard admin
-		header("location:../Dashboard/dashboard.php");
+		header("location:../view/dashboard.php");
 
-		// cek jika user login sebagai kasir
-	} else if ($data['role'] == "kasir") {
+		// cek jika user login sebagai perkuliahan
+	} else if ($data['role'] == "perkuliahan") {
 		// buat session login dan username
 		$_SESSION['username'] = $username;
 		$_SESSION['id_user'] = $data['id_user'];
 		$_SESSION['nama'] = $data['nama'];
-		$_SESSION['role'] = "kasir";
-		// alihkan ke halaman dashboard kasir
-		header("location:../Dashboard/transaksi.php");
+		$_SESSION['role'] = "perkuliahan";
+		// alihkan ke halaman dashboard perkuliahan
+		header("location:../view/perkuliahan.php");
 	} else {
 
 		// alihkan ke halaman login kembali

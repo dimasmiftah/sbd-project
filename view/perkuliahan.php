@@ -18,11 +18,11 @@ function rupiah($angka)
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="../Asset/css/base.css">
-  <link rel="stylesheet" href="../Asset/css/mobile.css">
+  <link rel="stylesheet" href="../asset/css/base.css">
+  <link rel="stylesheet" href="../asset/css/mobile.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
-  <link rel="stylesheet" type="text/css" href="../Asset/SweetAlert/sweetalert2.min.css">
-  <link rel="stylesheet" href="../Asset/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../asset/SweetAlert/sweetalert2.min.css">
+  <link rel="stylesheet" href="../asset/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -40,7 +40,7 @@ function rupiah($angka)
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <div> Hi! <?php echo $_SESSION['role'] ?> </div>
-        <div class="logout"><a href="../Auth/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></div>
+        <div class="logout"><a href="../auth/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></div>
       </form>
     </div>
   </nav>
@@ -60,7 +60,7 @@ function rupiah($angka)
             <a class="nav-link sidebar" href="dashboard.php" role="tab" aria-selected="true" id="link_dashboard"> <i class="fas fa-th-large"></i> Dashboard</a>
             <a class="nav-link sidebar"  href="barang.php" role="tab" aria-selected="false" id="link_barang"> <i class="fas fa-box-open"></i> Barang</a>
             <a class="nav-link sidebar" href="pengguna.php"role="tab" aria-selected="false" id="link_user"><i class="fas fa-users"></i> Pengguna</a>
-            <a class="nav-link active sidebar" href="transaksi.php" role="tab" aria-selected="false" id="link_transaksi"><i class="fas fa-shopping-cart"></i> Transaksi</a>';
+            <a class="nav-link active sidebar" href="perkuliahan.php" role="tab" aria-selected="false" id="link_transaksi"><i class="fas fa-shopping-cart"></i> Transaksi</a>';
           }
           ?>
         </div>
@@ -100,7 +100,7 @@ function rupiah($angka)
                                     <select id="barangs" name="barangs">
                                       <option></option>
                                       <?php
-                                      include '../Auth/koneksi.php';
+                                      include '../auth/koneksi.php';
                                       $barang = mysqli_query($koneksi, "select * from barang where stok>=1");
                                       $i = 1;
                                       while ($row = mysqli_fetch_array($barang)) {
@@ -164,7 +164,7 @@ function rupiah($angka)
                     </thead>
                     <tbody>
                       <?php
-                      include '../Auth/koneksi.php';
+                      include '../auth/koneksi.php';
                       $transaksi = mysqli_query($koneksi, "select * from transaksi order by tanggal DESC");
                       $i = 1;
                       while ($row = mysqli_fetch_array($transaksi)) {
@@ -206,7 +206,7 @@ function rupiah($angka)
                       </thead>
                       <tbody>
                         <?php
-                        include '../Auth/koneksi.php';
+                        include '../auth/koneksi.php';
                         $transaksi = mysqli_query($koneksi, "select * from transaksi");
 
                         while ($row = mysqli_fetch_array($transaksi)) {
@@ -273,13 +273,13 @@ function rupiah($angka)
   </header>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-  <script type="text/javascript" src="../Asset/SweetAlert/sweetalert2.min.js"></script>
+  <script type="text/javascript" src="../asset/SweetAlert/sweetalert2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="../Asset/js/bootstrap.min.js"></script>
+  <script src="../asset/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
-  <script type="text/javascript" src="../Asset/js/jspdf.plugin.autotable.min.js"></script>
+  <script type="text/javascript" src="../asset/js/jspdf.plugin.autotable.min.js"></script>
   <script>
     const id_transaksi = Number(new Date().getTime());
     const list = [];
@@ -324,7 +324,7 @@ function rupiah($angka)
     // Simpan transaksi
     $('#btn_simpan').on('click', () => {
       $.ajax({
-        url: "../Controller/transaksi_manage.php",
+        url: "../controller/transaksi_manage.php",
         type: 'post',
         data: {
           kasir,
@@ -332,7 +332,7 @@ function rupiah($angka)
         },
         success: (id_user) => {
           $.ajax({
-            url: "../Controller/transaksi_manage.php",
+            url: "../controller/transaksi_manage.php",
             type: 'post',
             data: {
               id_transaksi,
@@ -386,7 +386,7 @@ function rupiah($angka)
         alert('isi jumlah');
       } else {
         $.ajax({
-          url: "../Controller/transaksi_manage.php",
+          url: "../controller/transaksi_manage.php",
           type: 'post',
           data: {
             id: id,
@@ -448,7 +448,7 @@ function rupiah($angka)
     //DETAIL ACTION
     function Detail_Transaksi(id_transaksi) {
       $.ajax({
-        url: "../Controller/transaksi_manage.php",
+        url: "../controller/transaksi_manage.php",
         type: 'post',
         data: {
           id_transaksi,
@@ -499,7 +499,7 @@ function rupiah($angka)
       }).then((result) => {
         if (result.value) {
           $.ajax({
-            url: "../Controller/transaksi_manage.php",
+            url: "../controller/transaksi_manage.php",
             type: 'post',
             data: {
               id: id,
