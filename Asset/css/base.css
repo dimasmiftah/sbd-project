@@ -1,0 +1,167 @@
+body,
+html {
+  overflow-x: hidden;
+}
+img {
+  max-width: 100%;
+}
+.container {
+  max-width: 1140px !important;
+}
+.wrapper-register {
+  width: 900px !important;
+  margin: 75px auto;
+  background: #fff;
+  position: relative;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+}
+.wrapper-avatar-register {
+  background: #282262;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  height: 570px;
+  position: absolute;
+  left: 15px;
+  right: 0;
+  bottom: 0;
+  top: -20px;
+  border-radius: 10px;
+}
+.wrapper-avatar-login {
+  height: 380px !important;
+}
+.wrapper-avatar-register p {
+  text-align: center !important;
+  color: #fff;
+}
+.wrapper-avatar-register h5 {
+  color: #fff;
+  text-align: center !important;
+  margin: auto;
+  padding: auto !important;
+}
+
+.logo-register {
+  max-width: 150px;
+  margin: auto;
+  padding: 30px 0px;
+}
+.wrapper-form-register {
+  padding: 30px 50px;
+  border-radius: 0px !important;
+}
+.wrapper-form-register nav {
+  margin-bottom: 30px;
+}
+.wrapper-form-register .btn-primary {
+  margin: 0px 150px !important;
+}
+header {
+  margin-top: 20px;
+}
+.nav {
+  background: #fff;
+  margin-top: -20px !important;
+  padding: 20px;
+  margin-right: 0px !important;
+}
+
+.sidebar.nav-link {
+  margin: 20px 35px !important;
+}
+
+.sidebar {
+  margin: auto;
+  width: 80%;
+}
+.wrapper-card-dashbord {
+  background: red;
+  padding: 20px;
+  color: #fff;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+}
+.wrapper-card-dashbord i {
+  font-size: 80px;
+  text-align: center !important;
+}
+#data-toko {
+  margin-left: -30px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+.data-table {
+  padding-top: 20px;
+  background: #fff;
+}
+.btn-tambah {
+  float: right;
+}
+.title-table {
+  margin-bottom: 40px;
+}
+.navbar .form-inline {
+  color: #fff;
+  font-size: 20px;
+}
+.image-user {
+  text-align: center;
+  font-size: 100px;
+  background: #007bff;
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  border-radius: 100px;
+  color: #fff;
+}
+.profile-user p {
+  text-align: center !important;
+  padding-top: 10px;
+  font-weight: 480;
+}
+.link-list-Transaksi {
+  background: none !important;
+  border: none;
+  color: #007bff;
+}
+.note-transaksi {
+  font-size: 13px;
+  color: red;
+  font-weight: 550;
+}
+.logout {
+  margin-left: 20px;
+}
+.logout a {
+  color: #fff;
+}
+#form-cashier {
+  margin-top: 50px;
+}
+.btn-tambah-data-cashier {
+  border: none !important;
+  background: #007bff !important;
+  color: #fff !important;
+  border-radius: 100px !important;
+  margin-top: 35px;
+  margin-left: -20px !important;
+}
+.wrapper-input-transaksi {
+  max-width: 400px;
+  margin: 20px auto;
+}
+.wrapper-input-transaksi input {
+  border: none;
+  border-bottom: solid 1px grey;
+  border-radius: 0 !important;
+}
+.btn-simpan-data-kasir button {
+  padding: 10px 20px;
+  margin: 20px 450px !important;
+}
