@@ -1,8 +1,8 @@
 <!doctype html>
 <?php
 session_start();
-if ($_SESSION['role'] != "admin") {
-  header("location:../index.php?pesan=admin");
+if ($_SESSION['role'] != "Petugas") {
+  header("location:../index.php?pesan=petugas");
 }
 ?>
 <html lang="en">
@@ -45,12 +45,7 @@ if ($_SESSION['role'] != "admin") {
             </div>
             <p> <?php echo $_SESSION['nama'] ?></p>
           </div>
-          <a class="nav-link sidebar" href="dashboard.php" role="tab" aria-selected="true" id="link_dashboard"> <i class="fas fa-th-large"></i> Dashboard</a>
-          <a class="nav-link sidebar" href="mahasiswa.php" role="tab" aria-selected="false" id="link_barang"> <i class="fas fa-users"></i> Mahasiswa</a>
-          <a class="nav-link sidebar" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-user-graduate"></i> Dosen</a>
-          <a class="nav-link sidebar" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-book-open"></i> Mata Kuliah</a>
-          <a class="nav-link sidebar active" href="perkuliahan.php" role="tab" aria-selected="false"><i class="fas fa-university"></i> Perkuliahan</a>
-          <a class="nav-link sidebar" href="pengguna.php" role="tab" aria-selected="false" id="link_user"><i class="fas fa-user"></i> Pengguna</a>
+          <a class="nav-link sidebar active" href="perkuliahan.php" role="tab" aria-selected="false" id="link-perkuliahan"><i class="fas fa-university"></i> Perkuliahan</a>
         </div>
       </div>
       <div class="col-9">

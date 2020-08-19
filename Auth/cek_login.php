@@ -22,23 +22,23 @@ if ($cek > 0) {
 	$data = mysqli_fetch_assoc($login);
 
 	// cek jika user login sebagai admin
-	if ($data['role'] == "admin") {
+	if ($data['role'] == "Admin") {
 
 		// buat session login dan username
 		$_SESSION['id_user'] = $data['id_user'];
 		$_SESSION['nama'] = $data['nama'];
 		$_SESSION['username'] = $username;
-		$_SESSION['role'] = "admin";
+		$_SESSION['role'] = "Admin";
 		// alihkan ke halaman dashboard admin
 		header("location:../view/dashboard.php");
 
-		// cek jika user login sebagai perkuliahan
-	} else if ($data['role'] == "perkuliahan") {
+		// cek jika user login sebagai peetugas
+	} else if ($data['role'] == "Petugas") {
 		// buat session login dan username
 		$_SESSION['username'] = $username;
 		$_SESSION['id_user'] = $data['id_user'];
 		$_SESSION['nama'] = $data['nama'];
-		$_SESSION['role'] = "perkuliahan";
+		$_SESSION['role'] = "Petugas";
 		// alihkan ke halaman dashboard perkuliahan
 		header("location:../view/perkuliahan.php");
 	} else {

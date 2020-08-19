@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['role'] != "admin") {
+if ($_SESSION['role'] != "Admin") {
   header("location:../index.php?pesan=admin");
 }
 ?>
@@ -48,7 +48,7 @@ if ($_SESSION['role'] != "admin") {
           <a class="nav-link sidebar" href="mahasiswa.php" role="tab" aria-selected="false" id="link_barang"> <i class="fas fa-users"></i> Mahasiswa</a>
           <a class="nav-link sidebar" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-user-graduate"></i> Dosen</a>
           <a class="nav-link sidebar" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-book-open"></i> Mata Kuliah</a>
-          <a class="nav-link sidebar" href="perkuliahan.php" role="tab" aria-selected="false"><i class="fas fa-university"></i> Perkuliahan</a>
+
           <a class="nav-link sidebar active" href="pengguna.php" role="tab" aria-selected="false" id="link_user"><i class="fas fa-user"></i> Pengguna</a>
         </div>
       </div>
