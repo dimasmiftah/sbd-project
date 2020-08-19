@@ -46,8 +46,8 @@ if ($_SESSION['role'] != "admin") {
           </div>
           <a class="nav-link sidebar" href="dashboard.php" role="tab" aria-selected="true" id="link_dashboard"> <i class="fas fa-th-large"></i> Dashboard</a>
           <a class="nav-link sidebar" href="mahasiswa.php" role="tab" aria-selected="false" id="link_barang"> <i class="fas fa-users"></i> Mahasiswa</a>
-          <a class="nav-link sidebar active" href="dosen.php" role="tab" aria-selected="false"><i class="fas fa-user-graduate"></i> Dosen</a>
-          <a class="nav-link sidebar" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-book-open"></i> Mata Kuliah</a>
+          <a class="nav-link sidebar" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-user-graduate"></i> Dosen</a>
+          <a class="nav-link sidebar active" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-book-open"></i> Mata Kuliah</a>
           <a class="nav-link sidebar" href="perkuliahan.php" role="tab" aria-selected="false"><i class="fas fa-university"></i> Perkuliahan</a>
           <a class="nav-link sidebar" href="pengguna.php" role="tab" aria-selected="false" id="link_user"><i class="fas fa-user"></i> Pengguna</a>
         </div>
@@ -60,18 +60,18 @@ if ($_SESSION['role'] != "admin") {
                 <div class="container">
                   <div class="row">
                     <div class="col-4">
-                      <h3 class="title-table"> Daftar Dosen </h3>
+                      <h3 class="title-table"> Daftar Mata Kuliah </h3>
                     </div>
                     <div class="col-6"></div>
                     <div class="col-2">
-                      <button class="btn btn-primary btn-tambah" data-toggle="modal" data-target="#Tambah" aria-hidden="true" type="button"> Tambah Data Dosen</button>
+                      <button class="btn btn-primary btn-tambah" data-toggle="modal" data-target="#Tambah" aria-hidden="true" type="button"> Tambah Data Mata Kuliah</button>
                     </div>
                     <div class="col-3">
                       <div id="Tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Tambah Data Dosen</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Tambah Data Mata Kuliah</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
@@ -79,12 +79,16 @@ if ($_SESSION['role'] != "admin") {
                             <!-- TAMBAH -->
                             <div class="modal-body">
                               <div class="form-group">
-                                <label for="id">NIP</label>
-                                <input type="number" class="form-control" id="id" maxlength="12" aria-describedby="NIP" required>
+                                <label for="id">Kode</label>
+                                <input type="text" class="form-control" id="id" maxlength="6" aria-describedby="kode" required>
                               </div>
                               <div class="form-group">
-                                <label for="nama">Nama Dosen</label>
+                                <label for="nama">Nama Mata Kuliah</label>
                                 <input type="name" class="form-control" id="nama" aria-describedby="nama" required>
+                              </div>
+                              <div class="form-group">
+                                <label for="sks">SKS</label>
+                                <input type="number" class="form-control" id="sks" maxlength="2" aria-describedby="sks" required>
                               </div>
                             </div>
                             <div class="modal-footer">
@@ -101,8 +105,9 @@ if ($_SESSION['role'] != "admin") {
                     <thead class="" style="background:#007BFF;color:#fff;">
                       <tr>
                         <th scope="col">No.</th>
-                        <th scope="col">NIP</th>
-                        <th scope="col">Nama Dosen</th>
+                        <th scope="col">Kode</th>
+                        <th scope="col">Nama Mata Kuliah</th>
+                        <th scope="col">SKS</th>
                         <th scope="col">
                           <center>Aksi</center>
                         </th>
@@ -111,17 +116,18 @@ if ($_SESSION['role'] != "admin") {
                     <tbody>
                       <?php
                       include '../auth/koneksi.php';
-                      $dosen = mysqli_query($koneksi, "select * from dosen");
+                      $matakuliah = mysqli_query($koneksi, "select * from matakuliah");
                       $i = 1;
-                      while ($row = mysqli_fetch_array($dosen)) {
-                        echo "<tr class='item" . $row['NIP'] . "'>
+                      while ($row = mysqli_fetch_array($matakuliah)) {
+                        echo "<tr class='item" . $row['KodeMK'] . "'>
                           <td>" . $i . "</td>
-                          <td>" . $row['NIP'] . "</td>
-                          <td>" . $row['NamaDosen'] . "</td>
+                          <td>" . $row['KodeMK'] . "</td>
+                          <td>" . $row['NamaMK'] . "</td>
+                          <td>" . $row['SKS'] . "</td>
                           <td>
                             <center>
-                                <button class='btn btn-primary btn_edit'data-toggle='modal' data-id=" . $row['NIP'] . " data-target='#edit'aria-hidden='true' type='button'><i class='fas fa-pen'></i> </button>
-                                <button class='btn btn-primary btn_delete' style='background:red;border:none;' data-id=" . $row['NIP'] . "> <i class='fas fa-trash'></i> </button>
+                                <button class='btn btn-primary btn_edit'data-toggle='modal' data-id=" . $row['KodeMK'] . " data-target='#edit'aria-hidden='true' type='button'><i class='fas fa-pen'></i> </button>
+                                <button class='btn btn-primary btn_delete' style='background:red;border:none;' data-id=" . $row['KodeMK'] . "> <i class='fas fa-trash'></i> </button>
                             </center>
                           </td>
                         </tr>";
@@ -134,7 +140,7 @@ if ($_SESSION['role'] != "admin") {
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Edit Data Dosen</h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Edit Data Mata Kuliah</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -142,14 +148,19 @@ if ($_SESSION['role'] != "admin") {
                         <!-- EDIT -->
                         <div class="modal-body">
                           <div class="form-group">
-                            <label for="edit-id">NIP</label>
-                            <input type="number" class="form-control" id="edit-id" maxlength="12" aria-describedby="NIP" required>
+                            <label for="edit-id">Kode</label>
+                            <input type="text" class="form-control" id="edit-id" maxlength="6" aria-describedby="Kode" required>
                           </div>
                           <div class="form-group">
-                            <label for="edit-nama">Nama Dosen</label>
+                            <label for="edit-nama">Nama Mata Kuliah</label>
                             <input type="name" class="form-control" id="edit-nama" aria-describedby="nama" required>
                           </div>
+                          <div class="form-group">
+                            <label for="edit-sks">SKS</label>
+                            <input type="number" class="form-control" id="edit-sks" maxlength="2" aria-describedby="sks" required>
+                          </div>
                         </div>
+
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                           <button type="button" class="btn btn-primary btn_update">Save changes</button>
@@ -209,7 +220,7 @@ if ($_SESSION['role'] != "admin") {
       }).then((result) => {
         if (result.value) {
           $.ajax({
-            url: "../controller/dosen-controller.php",
+            url: "../controller/matakuliah-controller.php",
             type: 'post',
             data: {
               id,
@@ -255,7 +266,8 @@ if ($_SESSION['role'] != "admin") {
     $('.btn_simpan').on('click', function() {
       let id = $('#id').val();
       let nama = $('#nama').val();
-      if (id == '' || nama == '') {
+      let sks = $('#sks').val();
+      if (id == '' || nama == '' || sks == '') {
         Swal.fire(
           'Warning!',
           'Pastikan Semua Data sudah terisi',
@@ -263,12 +275,13 @@ if ($_SESSION['role'] != "admin") {
         );
       } else {
         $.ajax({
-          url: "../controller/dosen-controller.php",
+          url: "../controller/matakuliah-controller.php",
           type: 'post',
           data: {
             tipe: 'create',
             id,
-            nama
+            nama,
+            sks
           },
           success: function(data) {
             Swal.fire({
@@ -301,13 +314,14 @@ if ($_SESSION['role'] != "admin") {
     // UPDATE
     $('.btn_update').on('click', function() {
       $.ajax({
-        url: "../controller/dosen-controller.php",
+        url: "../controller/matakuliah-controller.php",
         type: 'post',
         data: {
           tipe: 'update',
           idLama,
           id: $('#edit-id').val(),
           nama: $('#edit-nama').val(),
+          sks: $('#edit-sks').val()
         },
         success: function(data) {
           Swal.fire({
@@ -333,7 +347,7 @@ if ($_SESSION['role'] != "admin") {
     // EDIT
     function editAction(id) {
       $.ajax({
-        url: "../controller/dosen-controller.php",
+        url: "../controller/matakuliah-controller.php",
         type: 'post',
         data: {
           id,
@@ -343,6 +357,7 @@ if ($_SESSION['role'] != "admin") {
           let edit = $.parseJSON(data);
           $('#edit-id').val(edit[0]['id']);
           $('#edit-nama').val(edit[0]['nama']);
+          $('#edit-sks').val(edit[0]['sks']);
         },
         error: function(data) {
           swalWithBootstrapButtons.fire(

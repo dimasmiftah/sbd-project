@@ -281,7 +281,7 @@ if ($_SESSION['role'] != "admin") {
         );
       } else {
         $.ajax({
-          url: "../controller/user_manage.php",
+          url: "../controller/pengguna-controller.php",
           type: 'post',
           data: {
             id: '0',
@@ -291,7 +291,7 @@ if ($_SESSION['role'] != "admin") {
             console.log(data);
             id_user = data;
             $.ajax({
-              url: "../controller/user_manage.php",
+              url: "../controller/pengguna-controller.php",
               type: 'post',
               data: {
                 id: id_user,
@@ -345,7 +345,7 @@ if ($_SESSION['role'] != "admin") {
 
     $('.btn_update').on('click', function() {
       $.ajax({
-        url: "../controller/user_manage.php",
+        url: "../controller/pengguna-controller.php",
         type: 'post',
         data: {
           id: id,
@@ -376,7 +376,7 @@ if ($_SESSION['role'] != "admin") {
 
     function edit_User(id) {
       $.ajax({
-        url: "../controller/user_manage.php",
+        url: "../controller/pengguna-controller.php",
         type: 'post',
         data: {
           id: id,
@@ -418,7 +418,7 @@ if ($_SESSION['role'] != "admin") {
       }).then((result) => {
         if (result.value) {
           $.ajax({
-            url: "../controller/user_manage.php",
+            url: "../controller/pengguna-controller.php",
             type: 'post',
             data: {
               id: id,
