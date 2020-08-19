@@ -71,7 +71,7 @@ header {
 }
 
 .sidebar.nav-link {
-  margin: 20px 35px !important;
+  margin: 8px 35px !important;
 }
 
 .sidebar {
@@ -97,7 +97,7 @@ header {
   border-radius: 10px;
 }
 .data-table {
-  padding-top: 20px;
+  padding-top: 0px;
   background: #fff;
 }
 .btn-tambah {

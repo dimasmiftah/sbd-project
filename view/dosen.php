@@ -44,10 +44,12 @@ if ($_SESSION['role'] != "admin") {
             </div>
             <p> <?php echo $_SESSION['nama'] ?></p>
           </div>
-          <a class="nav-link  sidebar" href="dashboard.php" role="tab" aria-selected="true"> <i class="fas fa-th-large"></i> Dashboard</a>
-          <a class="nav-link active sidebar" href="barang.php" role="tab" aria-selected="false"> <i class="fas fa-box-open"></i> Barang</a>
-          <a class="nav-link sidebar" href="pengguna.php" role="tab" aria-selected="false"><i class="fas fa-users"></i> Pengguna</a>
-          <a class="nav-link sidebar" href="perkuliahan.php" role="tab" aria-selected="false"><i class="fas fa-shopping-cart"></i> Transaksi</a>
+          <a class="nav-link sidebar" href="dashboard.php" role="tab" aria-selected="true" id="link_dashboard"> <i class="fas fa-th-large"></i> Dashboard</a>
+          <a class="nav-link sidebar" href="mahasiswa.php" role="tab" aria-selected="false" id="link_barang"> <i class="fas fa-users"></i> Mahasiswa</a>
+          <a class="nav-link sidebar active" href="dosen.php" role="tab" aria-selected="false"><i class="fas fa-user-graduate"></i> Dosen</a>
+          <a class="nav-link sidebar" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-book-open"></i> Mata Kuliah</a>
+          <a class="nav-link sidebar" href="perkuliahan.php" role="tab" aria-selected="false"><i class="fas fa-university"></i> Perkuliahan</a>
+          <a class="nav-link sidebar" href="pengguna.php" role="tab" aria-selected="false" id="link_user"><i class="fas fa-user"></i> Pengguna</a>
         </div>
       </div>
       <div class="col-9">
@@ -58,18 +60,18 @@ if ($_SESSION['role'] != "admin") {
                 <div class="container">
                   <div class="row">
                     <div class="col-4">
-                      <h3 class="title-table"> Daftar Barang </h3>
+                      <h3 class="title-table"> Daftar Dosen </h3>
                     </div>
                     <div class="col-6"></div>
                     <div class="col-2">
-                      <button class="btn btn-primary btn-tambah" data-toggle="modal" data-target="#Tambah" aria-hidden="true" type="button"> Tambah Data Barang</button>
+                      <button class="btn btn-primary btn-tambah" data-toggle="modal" data-target="#Tambah" aria-hidden="true" type="button"> Tambah Data Dosen</button>
                     </div>
                     <div class="col-3">
                       <div id="Tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Tambah Data Barang</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Tambah Data Dosen</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
@@ -77,16 +79,12 @@ if ($_SESSION['role'] != "admin") {
                             <!-- TAMBAH -->
                             <div class="modal-body">
                               <div class="form-group">
-                                <label for="barang">Nama Barang</label>
-                                <input type="name" class="form-control" id="barang" aria-describedby="emailHelp" required>
+                                <label for="id">NIP</label>
+                                <input type="number" class="form-control" id="id" aria-describedby="NIP" required>
                               </div>
                               <div class="form-group">
-                                <label for="stok">Stok</label>
-                                <input type="number" class="form-control" id="stok" required>
-                              </div>
-                              <div class="form-group">
-                                <label for="harga">Harga</label>
-                                <input type="number" class="form-control" id="harga" required>
+                                <label for="nama">Nama Dosen</label>
+                                <input type="name" class="form-control" id="nama" aria-describedby="nama" required>
                               </div>
                             </div>
                             <div class="modal-footer">
@@ -103,34 +101,27 @@ if ($_SESSION['role'] != "admin") {
                     <thead class="" style="background:#007BFF;color:#fff;">
                       <tr>
                         <th scope="col">No.</th>
-                        <th scope="col">Nama Barang</th>
-                        <th scope="col">Stok</th>
-                        <th scope="col">Harga</th>
+                        <th scope="col">NIM</th>
+                        <th scope="col">Nama Dosen</th>
                         <th scope="col">
-                          <center>opsi</center>
+                          <center>Aksi</center>
                         </th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php
                       include '../auth/koneksi.php';
-                      $barang = mysqli_query($koneksi, "select * from barang");
+                      $dosen = mysqli_query($koneksi, "select * from dosen");
                       $i = 1;
-                      function rupiah($angka)
-                      {
-                        $hasil_rupiah = "Rp " . number_format($angka, 2, ',', '.');
-                        return $hasil_rupiah;
-                      }
-                      while ($row = mysqli_fetch_array($barang)) {
-                        echo "<tr class='itemBarang" . $row['id_barang'] . "'>
+                      while ($row = mysqli_fetch_array($dosen)) {
+                        echo "<tr class='item" . $row['NIP'] . "'>
                           <td>" . $i . "</td>
-                          <td>" . $row['barang'] . "</td>
-                          <td>" . $row['stok'] . "</td>
-                          <td>" . rupiah($row['harga']) . "</td>
+                          <td>" . $row['NIP'] . "</td>
+                          <td>" . $row['NamaDosen'] . "</td>
                           <td>
                             <center>
-                                <button class='btn btn-primary btn_edit'data-toggle='modal' data-id=" . $row['id_barang'] . " data-target='#edit'aria-hidden='true' type='button'><i class='fas fa-pen'></i> </button>
-                                <button class='btn btn-primary btn_delete' style='background:red;border:none;' data-id=" . $row['id_barang'] . "> <i class='fas fa-trash'></i> </button>
+                                <button class='btn btn-primary btn_edit'data-toggle='modal' data-id=" . $row['NIP'] . " data-target='#edit'aria-hidden='true' type='button'><i class='fas fa-pen'></i> </button>
+                                <button class='btn btn-primary btn_delete' style='background:red;border:none;' data-id=" . $row['NIP'] . "> <i class='fas fa-trash'></i> </button>
                             </center>
                           </td>
                         </tr>";
@@ -143,7 +134,7 @@ if ($_SESSION['role'] != "admin") {
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Edit Data Barang</h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Edit Data Dosen</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -151,16 +142,12 @@ if ($_SESSION['role'] != "admin") {
                         <!-- EDIT -->
                         <div class="modal-body">
                           <div class="form-group">
-                            <label for="edit_barang">Nama Barang</label>
-                            <input type="name" class="form-control" id="edit_barang" aria-describedby="emailHelp" required>
+                            <label for="edit-id">NIP</label>
+                            <input type="number" class="form-control" id="edit-id" aria-describedby="NIP" required>
                           </div>
                           <div class="form-group">
-                            <label for="edit_stok">Stok</label>
-                            <input type="number" class="form-control" id="edit_stok" required>
-                          </div>
-                          <div class="form-group">
-                            <label for="edit_harga">Harga</label>
-                            <input type="number" class="form-control" id="edit_harga" required>
+                            <label for="edit-nama">Nama Dosen</label>
+                            <input type="name" class="form-control" id="edit-nama" aria-describedby="nama" required>
                           </div>
                         </div>
                         <div class="modal-footer">
@@ -196,12 +183,14 @@ if ($_SESSION['role'] != "admin") {
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
   <script>
     $(document).ready(() => {
+      const idLama = null;
       $('#tabel-data').DataTable({
-        "pageLength": 5
+        "pageLength": 3
       })
     });
 
-    function Delete_User(id) {
+    // DELETE
+    function deleteAction(id) {
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
           confirmButton: 'btn btn-success',
@@ -220,10 +209,10 @@ if ($_SESSION['role'] != "admin") {
       }).then((result) => {
         if (result.value) {
           $.ajax({
-            url: "../controller/barang_manage.php",
+            url: "../controller/dosen-controller.php",
             type: 'post',
             data: {
-              id: id,
+              id,
               tipe: 'delete'
             },
             success: function(data) {
@@ -232,7 +221,7 @@ if ($_SESSION['role'] != "admin") {
                 'Your file has been deleted.',
                 'success'
               );
-              $('.itemBarang' + id).fadeOut(1500, function() {
+              $('.item' + id).fadeOut(1500, function() {
                 $(this).remove();
               });
             },
@@ -256,16 +245,17 @@ if ($_SESSION['role'] != "admin") {
       });
     }
 
+    // DELETE BUTTON
     $('.btn_delete').on('click', function() {
-      id = $(this).data('id');
-      Delete_User(id);
+      idLama = $(this).data('id');
+      deleteAction(idLama);
     });
 
+    // CREATE
     $('.btn_simpan').on('click', function() {
-      let barang = $('#barang').val();
-      let stok = $('#stok').val();
-      let harga = $('#harga').val();
-      if (barang == '' || stok == '' || harga == '') {
+      let id = $('#id').val();
+      let nama = $('#nama').val();
+      if (id == '' || nama == '') {
         Swal.fire(
           'Warning!',
           'Pastikan Semua Data sudah terisi',
@@ -273,14 +263,12 @@ if ($_SESSION['role'] != "admin") {
         );
       } else {
         $.ajax({
-          url: "../controller/barang_manage.php",
+          url: "../controller/dosen-controller.php",
           type: 'post',
           data: {
-            id: null,
             tipe: 'create',
-            barang,
-            stok,
-            harga
+            id,
+            nama
           },
           success: function(data) {
             Swal.fire({
@@ -304,21 +292,22 @@ if ($_SESSION['role'] != "admin") {
       }
     });
 
+    // EDIT BUTTON
     $('.btn_edit').on('click', function() {
-      id = $(this).data('id');
-      edit_User(id);
+      idLama = $(this).data('id');
+      editAction(idLama);
     });
 
+    // UPDATE
     $('.btn_update').on('click', function() {
       $.ajax({
-        url: "../controller/barang_manage.php",
+        url: "../controller/dosen-controller.php",
         type: 'post',
         data: {
-          id: id,
           tipe: 'update',
-          barang: $('#edit_barang').val(),
-          stok: $('#edit_stok').val(),
-          harga: $('#edit_harga').val()
+          idLama,
+          id: $('#edit-id').val(),
+          nama: $('#edit-nama').val(),
         },
         success: function(data) {
           Swal.fire({
@@ -341,19 +330,19 @@ if ($_SESSION['role'] != "admin") {
       });
     });
 
-    function edit_User(id) {
+    // EDIT
+    function editAction(id) {
       $.ajax({
-        url: "../controller/barang_manage.php",
+        url: "../controller/dosen-controller.php",
         type: 'post',
         data: {
-          id: id,
+          id,
           tipe: 'edit'
         },
         success: function(data) {
-          var edit = $.parseJSON(data);
-          $('#edit_barang').val(edit[0]['barang']);
-          $('#edit_stok').val(edit[0]['stok']);
-          $('#edit_harga').val(edit[0]['harga']);
+          let edit = $.parseJSON(data);
+          $('#edit-id').val(edit[0]['id']);
+          $('#edit-nama').val(edit[0]['nama']);
         },
         error: function(data) {
           swalWithBootstrapButtons.fire(

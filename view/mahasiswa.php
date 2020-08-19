@@ -1,10 +1,10 @@
+<!doctype html>
 <?php
 session_start();
 if ($_SESSION['role'] != "admin") {
   header("location:../index.php?pesan=admin");
 }
 ?>
-<!doctype html>
 <html lang="en">
 
 <head>
@@ -44,10 +44,12 @@ if ($_SESSION['role'] != "admin") {
             </div>
             <p> <?php echo $_SESSION['nama'] ?></p>
           </div>
-          <a class="nav-link sidebar" href="dashboard.php" role="tab" aria-selected="true"> <i class="fas fa-th-large"></i> Dashboard</a>
-          <a class="nav-link sidebar" href="mahasiswa.php" role="tab" aria-selected="false"> <i class="fas fa-box-open"></i> Barang</a>
-          <a class="nav-link active sidebar" href="pengguna.php" role="tab" aria-selected="false"><i class="fas fa-users"></i> Pengguna</a>
-          <a class="nav-link sidebar" href="perkuliahan.php" role="tab" aria-selected="false"><i class="fas fa-shopping-cart"></i> Transaksi</a>
+          <a class="nav-link sidebar" href="dashboard.php" role="tab" aria-selected="true" id="link_dashboard"> <i class="fas fa-th-large"></i> Dashboard</a>
+          <a class="nav-link sidebar active" href="mahasiswa.php" role="tab" aria-selected="false" id="link_barang"> <i class="fas fa-users"></i> Mahasiswa</a>
+          <a class="nav-link sidebar" href="dosen.php" role="tab" aria-selected="false"><i class="fas fa-user-graduate"></i> Dosen</a>
+          <a class="nav-link sidebar" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-book-open"></i> Mata Kuliah</a>
+          <a class="nav-link sidebar" href="perkuliahan.php" role="tab" aria-selected="false"><i class="fas fa-university"></i> Perkuliahan</a>
+          <a class="nav-link sidebar" href="pengguna.php" role="tab" aria-selected="false" id="link_user"><i class="fas fa-user"></i> Pengguna</a>
         </div>
       </div>
       <div class="col-9">
@@ -58,41 +60,46 @@ if ($_SESSION['role'] != "admin") {
                 <div class="container">
                   <div class="row">
                     <div class="col-4">
-                      <h3 class="title-table"> Daftar Pengguna </h3>
+                      <h3 class="title-table"> Daftar Mahasiswa </h3>
+                    </div>
+                    <div class="col-6"></div>
+                    <div class="col-2">
+                      <button class="btn btn-primary btn-tambah" data-toggle="modal" data-target="#Tambah" aria-hidden="true" type="button"> Tambah Data Mahasiswa</button>
                     </div>
                     <div class="col-3">
-                    </div>
-                    <div class="col-2">
-                      <button class="btn btn-primary btn-tambah" data-toggle="modal" data-target="#Tambah" aria-hidden="true" type="button"> Tambah Pengguna</button>
-                    </div>
-                    <div class="col-3 list-button">
                       <div id="Tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Tambah Data Pengguna</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Tambah Data Mahasiswa</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
+                            <!-- TAMBAH -->
                             <div class="modal-body">
                               <div class="form-group">
-                                <label for="nama">Nama </label>
-                                <input type="name" class="form-control" id="nama" aria-describedby="emailHelp">
+                                <label for="nim">NIM</label>
+                                <input type="number" class="form-control" id="nim" aria-describedby="NIM" required>
                               </div>
                               <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" class="form-control" id="username">
+                                <label for="nama">Nama Mahasiswa</label>
+                                <input type="name" class="form-control" id="nama" aria-describedby="nama" required>
                               </div>
                               <div class="form-group">
-                                <label for="password">Password </label>
-                                <input type="password" class="form-control" id="password" aria-describedby="emailHelp">
+                                <label for="tanggallahir">Tanggal Lahir</label>
+                                <input type="date" class="form-control" id="tanggallahir" required>
                               </div>
                               <div class="form-group">
-                                <label for="exampleInputPassword1">Konfirmasi Password</label>
-                                <input type="password" class="form-control" id="kpassword">
-                                <small class="msg_error" style="color: red">Sorry Password Didn't Match Please check Again</small>
-                                <small class="msg_done" style="color: green">Password Match!! Thanks :)</small>
+                                <label for="alamat">Alamat</label>
+                                <textarea class="form-control" name="alamat" id="alamat" cols="30" rows="2" required></textarea>
+                              </div>
+                              <div class="form-group">
+                                <label for="jeniskelamin">Jenis Kelamin</label>
+                                <select class="form-control" name="jeniskelamin" id="jeniskelamin" required>
+                                  <option value="Laki-laki">Laki-laki</option>
+                                  <option value="Perempuan">Perempuan</option>
+                                </select>
                               </div>
                             </div>
                             <div class="modal-footer">
@@ -104,33 +111,38 @@ if ($_SESSION['role'] != "admin") {
                       </div>
                     </div>
                   </div>
+                  <!-- TAMPIL -->
                   <table class="table" id="tabel-data">
                     <thead class="" style="background:#007BFF;color:#fff;">
                       <tr>
                         <th scope="col">No.</th>
-                        <th scope="col">Nama </th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Roles</th>
+                        <th scope="col">NIM</th>
+                        <th scope="col">Nama Mahasiswa</th>
+                        <th scope="col">Tanggal Lahir</th>
+                        <th scope="col">Alamat</th>
+                        <th scope="col">Jenis Kelamin</th>
                         <th scope="col">
-                          <center>opsi</center>
+                          <center>Aksi</center>
                         </th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php
                       include '../auth/koneksi.php';
-                      $user = mysqli_query($koneksi, "select * from user where role != 'admin'");
+                      $mahasiswa = mysqli_query($koneksi, "select * from mahasiswa");
                       $i = 1;
-                      while ($row = mysqli_fetch_array($user)) {
-                        echo "<tr class='itemUser" . $row['id_user'] . "'>
+                      while ($row = mysqli_fetch_array($mahasiswa)) {
+                        echo "<tr class='itemMahasiswa" . $row['NIM'] . "'>
                           <td>" . $i . "</td>
-                          <td>" . $row['nama'] . "</td>
-                          <td>" . $row['username'] . "</td>
-                          <td>" . $row['role'] . "</td>
+                          <td>" . $row['NIM'] . "</td>
+                          <td>" . $row['NamaMahasiswa'] . "</td>
+                          <td>" . $row['TanggalLahir'] . "</td>
+                          <td>" . $row['Alamat'] . "</td>
+                          <td>" . $row['JenisKelamin'] . "</td>
                           <td>
                             <center>
-                              <button class='btn btn-primary btn_edit'data-toggle='modal' data-id=" . $row['id_user'] . " data-target='#edit'aria-hidden='true' type='button'><i class='fas fa-pen'></i> </button>
-                              <button class='btn btn-primary btn_delete' style='background:red;border:none;' data-id=" . $row['id_user'] . "> <i class='fas fa-trash'></i> </button>
+                                <button class='btn btn-primary btn_edit'data-toggle='modal' data-id=" . $row['NIM'] . " data-target='#edit'aria-hidden='true' type='button'><i class='fas fa-pen'></i> </button>
+                                <button class='btn btn-primary btn_delete' style='background:red;border:none;' data-id=" . $row['NIM'] . "> <i class='fas fa-trash'></i> </button>
                             </center>
                           </td>
                         </tr>";
@@ -139,26 +151,39 @@ if ($_SESSION['role'] != "admin") {
                       ?>
                     </tbody>
                   </table>
-                  <a href="#" class="float" data-toggle="modal" data-target="#Tambah" aria-hidden="true">
-                    <i class="fa fa-plus my-float"></i>
-                  </a>
                   <div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Edit Data Pengguna</h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Edit Data Mahasiswa</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
+                        <!-- EDIT -->
                         <div class="modal-body">
                           <div class="form-group">
-                            <label for="edit_nama">Nama</label>
-                            <input type="name" class="form-control" id="edit_nama" aria-describedby="emailHelp">
+                            <label for="edit-nim">NIM</label>
+                            <input type="number" class="form-control" id="edit-nim" aria-describedby="NIM" required>
                           </div>
                           <div class="form-group">
-                            <label for="edit_username">Username</label>
-                            <input type="text" class="form-control" id="edit_username">
+                            <label for="edit-nama">Nama Mahasiswa</label>
+                            <input type="name" class="form-control" id="edit-nama" aria-describedby="nama" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="edit-tanggallahir">Tanggal Lahir</label>
+                            <input type="date" class="form-control" id="edit-tanggallahir" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="edit-alamat">Alamat</label>
+                            <textarea class="form-control" name="edit-alamat" id="edit-alamat" cols="30" rows="2" required></textarea>
+                          </div>
+                          <div class="form-group">
+                            <label for="edit-jeniskelamin">Jenis Kelamin</label>
+                            <select class="form-control" name="edit-jeniskelamin" id="edit-jeniskelamin" required>
+                              <option value="Laki-laki">Laki-laki</option>
+                              <option value="Perempuan">Perempuan</option>
+                            </select>
                           </div>
                         </div>
                         <div class="modal-footer">
@@ -192,88 +217,84 @@ if ($_SESSION['role'] != "admin") {
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-
   <script>
-    $(document).ready(function() {
-      var nama, username, password;
-      var codeListTable = $('#tabel-data').DataTable({
-        "pageLength": 4
-      });
-      $('.msg_done').hide();
-      $('.msg_error').hide();
-      new $.fn.dataTable.Buttons(codeListTable, {
-        buttons: [{
-            extend: 'csv',
-            text: '<i class="fa fa-file"></i> CSV',
-            titleAttr: 'CSV',
-            className: 'btn btn-primary btn-sm',
-            init: function(api, node, config) {
-              $(node).removeClass('btn-default btn-secondary')
-            },
-            exportOptions: {
-              columns: ['0', '1', '2', '3']
-            }
-          },
-          {
-            extend: 'excelHtml5',
-            text: '<i class="fa fa-file-excel"></i> Excel',
-            titleAttr: 'Excel',
-            className: 'btn btn-primary btn-sm',
-            init: function(api, node, config) {
-              $(node).removeClass('btn-default btn-secondary')
-            },
-            exportOptions: {
-              columns: ['0', '1', '2', '3']
-            }
-          },
-          {
-            extend: 'pdf',
-            text: '<i class="fa fa-file-pdf"></i> PDF',
-            titleAttr: 'pdfHtml5',
-            className: 'btn btn-primary btn-sm',
-            init: function(api, node, config) {
-              $(node).removeClass('btn-default btn-secondary')
-            },
-            exportOptions: {
-              columns: ['0', '1', '2', '3']
-            }
-          },
-          {
-            extend: 'print',
-            text: '<i class="fa fa-print"></i> Print',
-            titleAttr: 'Print',
-            className: 'btn btn-primary btn-sm',
-            init: function(api, node, config) {
-              $(node).removeClass('btn-default btn-secondary')
-            },
-            exportOptions: {
-              columns: ['0', '1', '2', '3']
-            }
-          },
-        ]
-      });
-      codeListTable.buttons().container().appendTo('.list-button');
+    $(document).ready(() => {
+      const idLama = null;
+      $('#tabel-data').DataTable({
+        "pageLength": 3
+      })
     });
 
-    $('#kpassword').on('keyup', function() {
-      if ($(this).val() != $('#password').val()) {
-        $('.msg_done').hide();
-        $('.msg_error').show();
-        $('.btn_simpan').prop('disabled', true);
-      } else {
-        $('.msg_done').show();
-        $('.msg_error').hide();
-        $('.btn_simpan').prop('disabled', false);
-      }
+    // DELETE
+    function deleteAction(id) {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+            url: "../controller/mahasiswa-controller.php",
+            type: 'post',
+            data: {
+              id,
+              tipe: 'delete'
+            },
+            success: function(data) {
+              swalWithBootstrapButtons.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+              );
+              $('.itemMahasiswa' + id).fadeOut(1500, function() {
+                $(this).remove();
+              });
+            },
+            error: function(data) {
+              swalWithBootstrapButtons.fire(
+                'Gagal!',
+                'Failed to delete your file.',
+                'error'
+              );
+            }
+          });
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Your imaginary file is safe :)',
+            'error'
+          )
+        }
+      });
+    }
+
+    // DELETE BUTTON
+    $('.btn_delete').on('click', function() {
+      idLama = $(this).data('id');
+      deleteAction(idLama);
     });
 
+    // CREATE
     $('.btn_simpan').on('click', function() {
-      var id_user;
-      nama = $('#nama').val();
-      username = $('#username').val();
-      password = $('#password').val();
-      console.log(nama + username + password);
-      if (nama == '' || username == '' || password == '') {
+      let nim = $('#nim').val();
+      let nama = $('#nama').val();
+      let tanggallahir = $('#tanggallahir').val();
+      let alamat = $('#alamat').val();
+      let jeniskelamin = $('#jeniskelamin').val();
+      if (nim == '' || nama == '' || tanggallahir == '' || alamat == '' || jeniskelamin == '') {
         Swal.fire(
           'Warning!',
           'Pastikan Semua Data sudah terisi',
@@ -281,49 +302,31 @@ if ($_SESSION['role'] != "admin") {
         );
       } else {
         $.ajax({
-          url: "../controller/user_manage.php",
+          url: "../controller/mahasiswa-controller.php",
           type: 'post',
           data: {
-            id: '0',
-            tipe: 'get_id'
+            tipe: 'create',
+            id: nim,
+            nama,
+            tanggallahir,
+            alamat,
+            jeniskelamin
           },
           success: function(data) {
-            console.log(data);
-            id_user = data;
-            $.ajax({
-              url: "../controller/user_manage.php",
-              type: 'post',
-              data: {
-                id: id_user,
-                tipe: 'add_user',
-                nama: nama,
-                username: username,
-                password: password
-              },
-              success: function(data) {
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Your work has been saved',
-                  showConfirmButton: false,
-                  timer: 1500
-                })
-                setTimeout(function() {
-                  window.location.reload(1);
-                }, 1600);
-              },
-              error: function(data) {
-                swalWithBootstrapButtons.fire(
-                  'Gagal!',
-                  'Failed to add data',
-                  'error'
-                );
-              }
-            });
+            Swal.fire({
+              icon: 'success',
+              title: 'Your work has been saved',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            setTimeout(function() {
+              window.location.reload(1);
+            }, 1600);
           },
           error: function(data) {
             swalWithBootstrapButtons.fire(
               'Gagal!',
-              'Failed to get code',
+              'Failed to add data',
               'error'
             );
           }
@@ -331,27 +334,25 @@ if ($_SESSION['role'] != "admin") {
       }
     });
 
-    $('.btn_delete').on('click', function() {
-      id = $(this).data('id');
-      console.log(id);
-      Delete_User(id);
-    });
-
+    // EDIT BUTTON
     $('.btn_edit').on('click', function() {
-      id = $(this).data('id');
-      console.log(id);
-      edit_User(id);
+      idLama = $(this).data('id');
+      editAction(idLama);
     });
 
+    // UPDATE
     $('.btn_update').on('click', function() {
       $.ajax({
-        url: "../controller/user_manage.php",
+        url: "../controller/mahasiswa-controller.php",
         type: 'post',
         data: {
-          id: id,
           tipe: 'update',
-          nama: $('#edit_nama').val(),
-          username: $('#edit_username').val()
+          idLama,
+          id: $('#edit-nim').val(),
+          nama: $('#edit-nama').val(),
+          tanggallahir: $('#edit-tanggallahir').val(),
+          alamat: $('#edit-alamat').val(),
+          jeniskelamin: $('#edit-jeniskelamin').val(),
         },
         success: function(data) {
           Swal.fire({
@@ -374,20 +375,22 @@ if ($_SESSION['role'] != "admin") {
       });
     });
 
-    function edit_User(id) {
+    // EDIT
+    function editAction(id) {
       $.ajax({
-        url: "../controller/user_manage.php",
+        url: "../controller/mahasiswa-controller.php",
         type: 'post',
         data: {
-          id: id,
+          id,
           tipe: 'edit'
         },
         success: function(data) {
-          console.log(data);
-          var edit = $.parseJSON(data);
-          $('#edit_nama').val(edit[0]['nama']);
-          $('#edit_username').val(edit[0]['username']);
-
+          let edit = $.parseJSON(data);
+          $('#edit-nim').val(edit[0]['nim']);
+          $('#edit-nama').val(edit[0]['nama']);
+          $('#edit-tanggallahir').val(edit[0]['tanggallahir']);
+          $('#edit-alamat').val(edit[0]['alamat']);
+          $('#edit-jeniskelamin').val(edit[0]['jeniskelamin'])
         },
         error: function(data) {
           swalWithBootstrapButtons.fire(
@@ -395,61 +398,6 @@ if ($_SESSION['role'] != "admin") {
             'Failed to delete your file.',
             'error'
           );
-        }
-      });
-    }
-
-    function Delete_User(id) {
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
-      })
-      swalWithBootstrapButtons.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.value) {
-          $.ajax({
-            url: "../controller/user_manage.php",
-            type: 'post',
-            data: {
-              id: id,
-              tipe: 'delete'
-            },
-            success: function(data) {
-              swalWithBootstrapButtons.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
-              );
-              $('.itemUser' + id).fadeOut(1500, function() {
-                $(this).remove();
-              });
-            },
-            error: function(data) {
-              swalWithBootstrapButtons.fire(
-                'Gagal!',
-                'Failed to delete your file.',
-                'error'
-              );
-            }
-          });
-        } else if (
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons.fire(
-            'Cancelled',
-            'Your imaginary file is safe :)',
-            'error'
-          )
         }
       });
     }

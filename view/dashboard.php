@@ -52,10 +52,12 @@ if ($_SESSION['role'] == "") {
             </div>
             <p> <?php echo $_SESSION['nama'] ?></p>
           </div>
-          <a class="nav-link active sidebar" href="#" role="tab" aria-selected="true" id="link_dashboard"> <i class="fas fa-th-large"></i> Dashboard</a>
-          <a class="nav-link sidebar" href="barang.php" role="tab" aria-selected="false" id="link_barang"> <i class="fas fa-box-open"></i> Barang</a>
-          <a class="nav-link sidebar" href="pengguna.php" role="tab" aria-selected="false" id="link_user"><i class="fas fa-users"></i> Pengguna</a>'
-          <a class="nav-link sidebar" href="perkuliahan.php" role="tab" aria-selected="false"><i class="fas fa-shopping-cart"></i> Transaksi</a>
+          <a class="nav-link active sidebar" href="dashboard.php" role="tab" aria-selected="true" id="link_dashboard"> <i class="fas fa-th-large"></i> Dashboard</a>
+          <a class="nav-link sidebar" href="mahasiswa.php" role="tab" aria-selected="false" id="link_barang"> <i class="fas fa-users"></i> Mahasiswa</a>
+          <a class="nav-link sidebar" href="dosen.php" role="tab" aria-selected="false"><i class="fas fa-user-graduate"></i> Dosen</a>
+          <a class="nav-link sidebar" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-book-open"></i> Mata Kuliah</a>
+          <a class="nav-link sidebar" href="perkuliahan.php" role="tab" aria-selected="false"><i class="fas fa-university"></i> Perkuliahan</a>
+          <a class="nav-link sidebar" href="pengguna.php" role="tab" aria-selected="false" id="link_user"><i class="fas fa-user"></i> Pengguna</a>
         </div>
       </div>
       <div class="col-9">
@@ -65,21 +67,21 @@ if ($_SESSION['role'] == "") {
               <section id="data-toko">
                 <div class="row">
                   <div class="col-4">
-                    <a href="barang.php" class="wrapper-card-dashbord kotak-item" style="background:#E94B35">
+                    <a href="mahasiswa.php" class="wrapper-card-dashbord kotak-item" style="background:#E94B35">
                       <div class="row">
                         <div class="col-6">
                           <div class="avatar-wrapper-card-dashbord">
-                            <i class="fas fa-box-open"></i>
+                            <i class="fas fa-users"></i>
                           </div>
                         </div>
                         <div class="col-6">
                           <div class="data-wrapper-card-dashbord">
-                            <h4> Barang<br>Stok Tipis </h4>
+                            <h4> Data Mahasiswa </h4>
                             <?php
                             include '../auth/koneksi.php';
-                            $jumlah = mysqli_query($koneksi, "select COUNT(*) AS jumlah from barang where stok <= 5");
+                            $jumlah = mysqli_query($koneksi, "select COUNT(*) AS jumlah from mahasiswa");
                             while ($row = mysqli_fetch_array($jumlah)) {
-                              echo "<P> " . $row['jumlah'] . " Barang</P>";
+                              echo "<P> " . $row['jumlah'] . " orang</P>";
                             }
                             ?>
                           </div>
@@ -88,21 +90,21 @@ if ($_SESSION['role'] == "") {
                     </a>
                   </div>
                   <div class="col-4">
-                    <a href="kasir.php" class="wrapper-card-dashbord kotak-item" style="background:#F3C501;">
+                    <a href="dosen.php" class="wrapper-card-dashbord kotak-item" style="background:#F3C501;">
                       <div class="row">
                         <div class="col-6">
                           <div class="avatar-wrapper-card-dashbord">
-                            <i class="fas fa-shopping-cart"></i>
+                            <i class="fas fa-user-graduate"></i>
                           </div>
                         </div>
                         <div class="col-6">
                           <div class="data-wrapper-card-dashbord">
-                            <h4> Jumlah<br>Kasir </h4>
+                            <h4> Data Dosen </h4>
                             <?php
                             include '../auth/koneksi.php';
-                            $jumlah = mysqli_query($koneksi, "select COUNT(*) AS jumlah from user where role='kasir'");
+                            $jumlah = mysqli_query($koneksi, "select COUNT(*) AS jumlah from dosen");
                             while ($row = mysqli_fetch_array($jumlah)) {
-                              echo "<P> " . $row['jumlah'] . " Orang</P>";
+                              echo "<P> " . $row['jumlah'] . " orang</P>";
                             }
                             ?>
                           </div>
@@ -115,17 +117,17 @@ if ($_SESSION['role'] == "") {
                       <div class="row">
                         <div class="col-6">
                           <div class="avatar-wrapper-card-dashbord">
-                            <i class="fas fa-shopping-basket"></i>
+                            <i class="fas fa-university"></i>
                           </div>
                         </div>
                         <div class="col-6">
                           <div class="data-wrapper-card-dashbord">
-                            <h4> Transaksi</br>Miggu Ini </h4>
+                            <h4> Data Perkuliahan </h4>
                             <?php
                             include '../auth/koneksi.php';
-                            $jumlah = mysqli_query($koneksi, "select COUNT(*) AS jumlah from transaksi WHERE YEARWEEK(`tanggal`, 1) = YEARWEEK(CURDATE(), 1)");
+                            $jumlah = mysqli_query($koneksi, "select COUNT(*) AS jumlah from perkuliahan");
                             while ($row = mysqli_fetch_array($jumlah)) {
-                              echo "<P> " . $row['jumlah'] . " Transaksi</P>";
+                              echo "<P> " . $row['jumlah'] . " perkuliahan</P>";
                             }
                             ?>
                           </div>
