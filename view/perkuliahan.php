@@ -1,32 +1,23 @@
+<!doctype html>
 <?php
 session_start();
-// cek apakah yang mengakses halaman ini sudah login
-if ($_SESSION['role'] == "") {
+if ($_SESSION['role'] != "admin") {
   header("location:../index.php?pesan=admin");
 }
-
-// fungsi formatting rupiah
-function rupiah($angka)
-{
-  $hasil_rupiah = "Rp" . number_format($angka, 0, ',', '.');
-  return $hasil_rupiah;
-}
 ?>
-<!doctype html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="../asset/css/base.css">
-  <link rel="stylesheet" href="../asset/css/mobile.css">
+  <link rel="stylesheet" href="../Asset/css/base.css">
+  <link rel="stylesheet" href="../Asset/css/mobile.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
-  <link rel="stylesheet" type="text/css" href="../asset/SweetAlert/sweetalert2.min.css">
-  <link rel="stylesheet" href="../asset/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../Asset/SweetAlert/sweetalert2.min.css">
+  <link rel="stylesheet" href="../Asset/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+  <title>SBD-Akademik</title>
 </head>
 
 <body style="background:#f9f9f9;">
@@ -54,15 +45,12 @@ function rupiah($angka)
             </div>
             <p> <?php echo $_SESSION['nama'] ?></p>
           </div>
-          <?php
-          if ($_SESSION['role'] == "admin") {
-            echo '
-            <a class="nav-link sidebar" href="dashboard.php" role="tab" aria-selected="true" id="link_dashboard"> <i class="fas fa-th-large"></i> Dashboard</a>
-            <a class="nav-link sidebar"  href="mahasiswa.php" role="tab" aria-selected="false" id="link_barang"> <i class="fas fa-box-open"></i> Barang</a>
-            <a class="nav-link sidebar" href="pengguna.php"role="tab" aria-selected="false" id="link_user"><i class="fas fa-users"></i> Pengguna</a>
-            <a class="nav-link active sidebar" href="perkuliahan.php" role="tab" aria-selected="false" id="link_transaksi"><i class="fas fa-shopping-cart"></i> Transaksi</a>';
-          }
-          ?>
+          <a class="nav-link sidebar" href="dashboard.php" role="tab" aria-selected="true" id="link_dashboard"> <i class="fas fa-th-large"></i> Dashboard</a>
+          <a class="nav-link sidebar" href="mahasiswa.php" role="tab" aria-selected="false" id="link_barang"> <i class="fas fa-users"></i> Mahasiswa</a>
+          <a class="nav-link sidebar" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-user-graduate"></i> Dosen</a>
+          <a class="nav-link sidebar" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-book-open"></i> Mata Kuliah</a>
+          <a class="nav-link sidebar active" href="perkuliahan.php" role="tab" aria-selected="false"><i class="fas fa-university"></i> Perkuliahan</a>
+          <a class="nav-link sidebar" href="pengguna.php" role="tab" aria-selected="false" id="link_user"><i class="fas fa-user"></i> Pengguna</a>
         </div>
       </div>
       <div class="col-9">
@@ -73,75 +61,78 @@ function rupiah($angka)
                 <div class="container">
                   <div class="row">
                     <div class="col-4">
-                      <h3 class="title-table"> Daftar Transaksi </h3>
+                      <h3 class="title-table"> Daftar Perkuliahan </h3>
                     </div>
-                    <div class="col-5">
-                    </div>
+                    <div class="col-6"></div>
                     <div class="col-2">
-                      <button class="btn btn-primary btn-tambah" data-toggle="modal" data-target="#Tambah" aria-hidden="true" type="button"> Tambah Data Transaksi</button>
+                      <button class="btn btn-primary btn-tambah" data-toggle="modal" data-target="#Tambah" aria-hidden="true" type="button"> Tambah Data Perkuliahan</button>
                     </div>
-                    <div class="col-1 list-button">
-                      <button class="btn btn-primary btn-sm" style=" float: right;" onclick="ToPDF()"><i class="fa fa-file-pdf"></i> PDF</button>
+                    <div class="col-3">
                       <div id="Tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Tambah Data Transaksi</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Tambah Data Perkuliahan</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
                             <!-- TAMBAH -->
                             <div class="modal-body">
-                              <input id="kasir" type="hidden" value='<?= $_SESSION['username'] ?>'>
-                              <table class="table">
-                                <tr>
-                                  <td>
-                                    <select id="barangs" name="barangs">
-                                      <option></option>
-                                      <?php
-                                      include '../auth/koneksi.php';
-                                      $barang = mysqli_query($koneksi, "select * from barang where stok>=1");
-                                      $i = 1;
-                                      while ($row = mysqli_fetch_array($barang)) {
-                                        echo "<option class='barang'" . $i . " value=" . $row['id_barang'] . ">" . $row['barang'] . "</option>";
-                                        $i++;
-                                      }
-                                      ?>
-                                    </select>
-                                  </td>
-                                  <td><input type="text" placeholder="Jumlah" id="txt_jumlah"></td>
-                                  <td>
-                                    <button class="btn btn-primary" id="btn_tambah">Tambah</button>
-                                  </td>
-                                </tr>
-                              </table>
-
-                              <table class="table">
-                                <thead class="" style="background:#007BFF;color:#fff;">
-                                  <tr>
-                                    <th scope="col">Nama Barang</th>
-                                    <th scope="col">Harga</th>
-                                    <th scope="col">Jumlah</th>
-                                    <th scope="col">Total Harga</th>
-                                  </tr>
-                                </thead>
-                                <tbody id="list_barang">
-                                </tbody>
-                                <tfoot>
-                                  <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>Total</td>
-                                    <td id="total"></td>
-                                  </tr>
-                                </tfoot>
-                              </table>
-
+                              <input id="petugas" type="hidden" value='<?= $_SESSION['id_user'] ?>'>
+                              <div class="form-group">
+                                <label for="id">Mahasiswa</label>
+                                <select id="id" name="id" class="form-control" required>
+                                  <option>Pilih Mahasiswa</option>
+                                  <?php
+                                  include '../auth/koneksi.php';
+                                  $query = mysqli_query($koneksi, "SELECT * FROM mahasiswa");
+                                  $i = 1;
+                                  while ($row = mysqli_fetch_array($query)) {
+                                    echo "<option class='id'" . $i . " value=" . $row['NIM'] . ">" . $row['NIM'] . " - " . $row['NamaMahasiswa'] . "</option>";
+                                    $i++;
+                                  }
+                                  ?>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="idnd">Mata Kuliah</label>
+                                <select id="idnd" name="idnd" class="form-control" required>
+                                  <option>Pilih Mata Kuliah</option>
+                                  <?php
+                                  include '../auth/koneksi.php';
+                                  $query = mysqli_query($koneksi, "SELECT * FROM matakuliah");
+                                  $i = 1;
+                                  while ($row = mysqli_fetch_array($query)) {
+                                    echo "<option class='id'" . $i . " value=" . $row['KodeMK'] . ">" . $row['KodeMK'] . " - " . $row['NamaMK'] . "</option>";
+                                    $i++;
+                                  }
+                                  ?>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="nip">Dosen</label>
+                                <select id="nip" name="nip" class="form-control" required>
+                                  <option>Pilih Dosen</option>
+                                  <?php
+                                  include '../auth/koneksi.php';
+                                  $query = mysqli_query($koneksi, "SELECT * FROM dosen");
+                                  $i = 1;
+                                  while ($row = mysqli_fetch_array($query)) {
+                                    echo "<option class='id'" . $i . " value=" . $row['NIP'] . ">" . $row['NIP'] . " - " . $row['NamaDosen'] . "</option>";
+                                    $i++;
+                                  }
+                                  ?>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="nilai">Index Nilai</label>
+                                <input type="text" class="form-control" id="nilai" maxlength="1" aria-describedby="sks" required>
+                              </div>
                             </div>
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                              <button type="button" class="btn btn-primary" id="btn_simpan">Simpan</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary btn_simpan">Save changes</button>
                             </div>
                           </div>
                         </div>
@@ -149,115 +140,117 @@ function rupiah($angka)
                     </div>
                   </div>
                   <!-- TAMPIL -->
-                  <table class="table tabel-transaksi" id="tabel-data">
+                  <table class="table" id="tabel-data">
                     <thead class="" style="background:#007BFF;color:#fff;">
                       <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">ID Transaksi</th>
-                        <th scope="col">Kasir</th>
-                        <th scope="col">Tanggal</th>
-                        <th scope="col">Total Belanja</th>
+                        <th scope="col">No.</th>
+                        <th scope="col">Nama Mahasiswa</th>
+                        <th scope="col">Nama Dosen</th>
+                        <th scope="col">Mata Kuliah</th>
+                        <th scope="col">SKS</th>
+                        <th scope="col">Nilai</th>
+                        <th scope="col">Petugas</th>
                         <th scope="col">
-                          <center>Aksi</center>
+                          <center> </center>
                         </th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php
                       include '../auth/koneksi.php';
-                      $transaksi = mysqli_query($koneksi, "select * from transaksi order by tanggal DESC");
+                      $perkuliahan = mysqli_query($koneksi, "SELECT mahasiswa.NamaMahasiswa, dosen.NamaDosen, matakuliah.NamaMK, matakuliah.SKS, perkuliahan.NIM, perkuliahan.KodeMK, perkuliahan.Nilai, user.nama
+                      FROM perkuliahan 
+                      INNER JOIN mahasiswa ON perkuliahan.NIM = mahasiswa.NIM
+                      INNER JOIN dosen ON perkuliahan.NIP = dosen.NIP
+                      INNER JOIN matakuliah ON perkuliahan.KodeMK = matakuliah.KodeMK
+                      INNER JOIN user ON perkuliahan.id_user = user.id_user");
                       $i = 1;
-                      while ($row = mysqli_fetch_array($transaksi)) {
-                        $nama_kasir = '';
-                        $kasir = mysqli_query($koneksi, "select nama from user where id_user = '" . $row['id_user'] . "'");
-                        while ($row2 = mysqli_fetch_array($kasir)) {
-                          $nama_kasir = $row2['nama'];
-                        }
-                        echo "<tr class='itemTransaksi" . $row['id_transaksi'] . "'>
-                                <td>" . $i . "</td>
-                                <td>" . $row['id_transaksi'] . "</td>
-                                <td>" . $nama_kasir . "</td>
-                                <td>" . $row['tanggal'] . "</td>
-                                <td>" . rupiah($row['subtotal']) . "</td>
-                                <td>
-                                  <center>
-                                    <button class='btn btn-primary btn_detail' data-id=" . $row['id_transaksi'] . "> <i class='fas fa-eye'></i> </button>
-                                    <button class='btn btn-primary btn_delete' style='background:red;border:none;' data-id=" . $row['id_transaksi'] . "> <i class='fas fa-trash'></i> </button>
-                                  </center>
-                                </td>
-                              </tr>";
+                      while ($row = mysqli_fetch_array($perkuliahan)) {
+                        echo "<tr class='item" . $row['NIM'] . "" . $row['KodeMK'] . "'>
+                          <td>" . $i . "</td>
+                          <td>" . $row['NamaMahasiswa'] . "</td>
+                          <td>" . $row['NamaDosen'] . "</td>
+                          <td>" . $row['NamaMK'] . "</td>
+                          <td>" . $row['SKS'] . "</td>
+                          <td>" . $row['Nilai'] . "</td>
+                          <td>" . $row['nama'] . "</td>
+                          <td>
+                            <center>
+                                <button class='btn btn-primary btn_edit'data-toggle='modal' data-id=" . $row['NIM'] . " data-idnd=" . $row['KodeMK'] . " data-target='#edit'aria-hidden='true' type='button'><i class='fas fa-pen'></i> </button>
+                                <button class='btn btn-primary btn_delete' style='background:red;border:none;' data-id=" . $row['NIM'] . " data-idnd=" . $row['KodeMK'] . "> <i class='fas fa-trash'></i> </button>
+                            </center>
+                          </td>
+                        </tr>";
                         $i++;
                       }
                       ?>
                     </tbody>
                   </table>
-                  <div class="cetak_pdf">
-                    <table class="table table-striped" id="table_pdf" hidden>
-
-                      <thead>
-                        <tr>
-                          <th>ID Transaksi</th>
-                          <th>Kasir</th>
-                          <th>Tanggal</th>
-                          <th>List Barang</th>
-                          <th>Total Harga</th>
-
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                        include '../auth/koneksi.php';
-                        $transaksi = mysqli_query($koneksi, "select * from transaksi");
-
-                        while ($row = mysqli_fetch_array($transaksi)) {
-                          $id_transaksi = $row['id_transaksi'];
-                          $nama_kasir = '';
-                          $kasir = mysqli_query($koneksi, "select nama from user where id_user = '" . $row['id_user'] . "'");
-                          while ($row2 = mysqli_fetch_array($kasir)) {
-                            $nama_kasir = $row2['nama'];
-                          }
-                          echo "<tr class='itemTransaksi" . $row['id_transaksi'] . "'>
-                                <td>" . $row['id_transaksi'] . "</td>
-                                <td>" . $nama_kasir . "</td>
-                                <td>" . $row['tanggal'] . "</td>";
-                          echo "<td>";
-                          $list = mysqli_query($koneksi, "select barang.barang,list_transaksi.qty from list_transaksi join barang on list_transaksi.id_barang = barang.id_barang where list_transaksi.id_transaksi='$id_transaksi'");
-                          echo "<ul>";
-                          while ($row3 = mysqli_fetch_array($list)) {
-                            echo "<li>" . $row3['barang'] . " (" . $row3['qty'] . ")</br> ";
-                          }
-                          echo "</ul>";
-                          echo "</td>";
-                          echo "<td>" . rupiah($row['subtotal']) . "</td></tr>";
-                        }
-                        ?>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div id="list-transaksi" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">List Data Transaksi</h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Edit Data Perkuliahan</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
-                        <!-- LIST -->
+                        <!-- EDIT -->
                         <div class="modal-body">
-                          <table class="table">
-                            <thead class="" style="background:#007BFF;color:#fff;">
-                              <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama Barang</th>
-                                <th scope="col">Harga</th>
-                                <th scope="col">Qty</th>
-                                <th scope="col">Total Harga</th>
-                              </tr>
-                            </thead>
-                            <tbody id="list-barang">
-                            </tbody>
-                          </table>
+                          <input id="edit-petugas" type="hidden" value='<?= $_SESSION['id_user'] ?>'>
+                          <div class="form-group">
+                            <label for="edit-id">Mahasiswa</label>
+                            <select id="edit-id" name="edit-id" class="form-control" required>
+                              <option>Pilih Mahasiswa</option>
+                              <?php
+                              include '../auth/koneksi.php';
+                              $query = mysqli_query($koneksi, "SELECT * FROM mahasiswa");
+                              $i = 1;
+                              while ($row = mysqli_fetch_array($query)) {
+                                echo "<option class='id'" . $i . " value=" . $row['NIM'] . ">" . $row['NIM'] . " - " . $row['NamaMahasiswa'] . "</option>";
+                                $i++;
+                              }
+                              ?>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="edit-idnd">Mata Kuliah</label>
+                            <select id="edit-idnd" name="edit-idnd" class="form-control" required>
+                              <option>Pilih Mata Kuliah</option>
+                              <?php
+                              include '../auth/koneksi.php';
+                              $query = mysqli_query($koneksi, "SELECT * FROM matakuliah");
+                              $i = 1;
+                              while ($row = mysqli_fetch_array($query)) {
+                                echo "<option class='id'" . $i . " value=" . $row['KodeMK'] . ">" . $row['KodeMK'] . " - " . $row['NamaMK'] . "</option>";
+                                $i++;
+                              }
+                              ?>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="edit-nip">Dosen</label>
+                            <select id="edit-nip" name="edit-nip" class="form-control" required>
+                              <option>Pilih Dosen</option>
+                              <?php
+                              include '../auth/koneksi.php';
+                              $query = mysqli_query($koneksi, "SELECT * FROM dosen");
+                              $i = 1;
+                              while ($row = mysqli_fetch_array($query)) {
+                                echo "<option class='id'" . $i . " value=" . $row['NIP'] . ">" . $row['NIP'] . " - " . $row['NamaDosen'] . "</option>";
+                                $i++;
+                              }
+                              ?>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="edit-nilai">Index Nilai</label>
+                            <input type="text" class="form-control" id="edit-nilai" maxlength="1" aria-describedby="sks" required>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary btn_update">Save changes</button>
                         </div>
                       </div>
                     </div>
@@ -273,213 +266,24 @@ function rupiah($angka)
   </header>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-  <script type="text/javascript" src="../asset/SweetAlert/sweetalert2.min.js"></script>
+  <script type="text/javascript" src="../Asset/SweetAlert/sweetalert2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="../asset/js/bootstrap.min.js"></script>
+  <script src="../Asset/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
-  <script type="text/javascript" src="../asset/js/jspdf.plugin.autotable.min.js"></script>
+  <script type="text/javascript" src="../Asset/js/jspdf.plugin.autotable.min.js"></script>
   <script>
-    const id_transaksi = Number(new Date().getTime());
-    const list = [];
-    let kasir = null;
-    let total = 0;
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger'
-      },
-      buttonsStyling: false
-    })
-
-    $(document).ready(function() {
-      role = "<?php echo $_SESSION['role'] ?>";
-      if (role == 'kasir') {
-        $('#link_dashboard').hide();
-        $('#link_user').hide();
-        $('#link_barang').hide();
-        $('#link_transaksi').hide();
-      }
-    });
-
-    // DOCUMENT READY
-    $(document).ready(function() {
-      let role = "<?php echo $_SESSION['role'] ?>";
-      if (role == 'kasir') {
-        $('#link_dashboard').hide();
-        $('#link_user').hide();
-        $('#link_barang').hide();
-      }
+    $(document).ready(() => {
+      const idLama = null;
+      const idndLama = null;
       $('#tabel-data').DataTable({
-        "pageLength": 4
-      });
-      $('#barangs').select2({
-        placeholder: 'Pilih Barang',
-        allowClear: true
-      });
-      kasir = $('#kasir').val();
+        "pageLength": 5
+      })
     });
 
-    // Simpan transaksi
-    $('#btn_simpan').on('click', () => {
-      $.ajax({
-        url: "../controller/transaksi_manage.php",
-        type: 'post',
-        data: {
-          kasir,
-          tipe: 'kasir'
-        },
-        success: (id_user) => {
-          $.ajax({
-            url: "../controller/transaksi_manage.php",
-            type: 'post',
-            data: {
-              id_transaksi,
-              id_user,
-              total,
-              list,
-              tipe: 'create'
-            },
-            success: function(data) {
-              Swal.fire({
-                icon: 'success',
-                title: 'Berhasil menyimpan transaksi',
-                showConfirmButton: false,
-                timer: 1500
-              })
-              console.log(data);
-
-              setTimeout(function() {
-                window.location.reload(1);
-              }, 1600);
-            },
-            error: function(data) {
-              swalWithBootstrapButtons.fire(
-                'Gagal!',
-                'Gagal menyimpan transaksi',
-                'error'
-              );
-            }
-          });
-        },
-        error: (err) => {
-          alert(err);
-        }
-      });
-
-    })
-
-    // reset tambah barang
-    function resetTambah() {
-      $('#barangs').val(null).trigger('change');
-      $('#txt_jumlah').val(null);
-    }
-
-    // TAMBAH BARANG EVENT
-    $('#btn_tambah').on('click', function() {
-      let id = $('#barangs').children("option:selected").val();
-      let jumlah = Number($('#txt_jumlah').val());
-      if (id == '') {
-        alert('pilih barang')
-      } else if (jumlah == '') {
-        alert('isi jumlah');
-      } else {
-        $.ajax({
-          url: "../controller/transaksi_manage.php",
-          type: 'post',
-          data: {
-            id: id,
-            tipe: 'pilih'
-          },
-          success: (data) => {
-            let data_json = JSON.parse(data)
-            let barang = {
-              id_barang: Number(data_json[0].id_barang),
-              barang: data_json[0].barang,
-              stok: Number(data_json[0].stok),
-              harga: Number(data_json[0].harga)
-            }
-            console.log(barang);
-            if (jumlah > barang.stok) {
-              alert(barang.barang + ' hanya tersisa ' + barang.stok)
-            } else {
-              total += (jumlah * barang.harga);
-              list.push({
-                id_barang: barang.id_barang,
-                barang: barang.barang,
-                harga: barang.harga,
-                qty: jumlah,
-                total: jumlah * barang.harga
-              })
-              $("#list_barang").append(
-                `
-              <tr>
-                <td>${barang.barang}</td>
-                <td>${barang.harga}</td>
-                <td>${jumlah}</td>
-                <td>${jumlah*barang.harga}</td>
-              </tr>
-              `
-              );
-              $('#total').html(total)
-              resetTambah()
-            }
-          },
-          error: (err) => {
-            console.log(err)
-          }
-        })
-      }
-    });
-
-    // DELETE CLICK EVENT
-    $('.btn_delete').on('click', function() {
-      let id = $(this).data('id');
-      Delete_Transaksi(id);
-    });
-
-    // DETAIL CLICK EVENT
-    $('.btn_detail').on('click', function() {
-      let id_transaksi = $(this).data('id');
-      Detail_Transaksi(id_transaksi);
-    });
-
-    //DETAIL ACTION
-    function Detail_Transaksi(id_transaksi) {
-      $.ajax({
-        url: "../controller/transaksi_manage.php",
-        type: 'post',
-        data: {
-          id_transaksi,
-          tipe: 'detail'
-        },
-        success: function(data) {
-          const list_transaksi = [...JSON.parse(data)];
-          let htmlList = '';
-          list_transaksi.forEach((li, index) => {
-            htmlList +=
-              `
-            <tr>
-            <td>${index+1}</td>
-            <td>${li.barang}</td>
-            <td>Rp${new Intl.NumberFormat('id').format(li.harga)}</td>
-            <td>${li.qty}</td>
-            <td>Rp${new Intl.NumberFormat('id').format(li.total)}</td>
-            </tr>
-            `
-          })
-          $('#list-barang').html(htmlList)
-          $('#list-transaksi').modal('toggle');
-        },
-        error: function(err) {
-          console.log(err)
-        }
-      });
-    }
-
-    //DELETE CLICK ACTION
-    function Delete_Transaksi(id) {
+    // DELETE
+    function deleteAction(id, idnd) {
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
           confirmButton: 'btn btn-success',
@@ -487,7 +291,6 @@ function rupiah($angka)
         },
         buttonsStyling: false
       })
-
       swalWithBootstrapButtons.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -499,10 +302,11 @@ function rupiah($angka)
       }).then((result) => {
         if (result.value) {
           $.ajax({
-            url: "../controller/transaksi_manage.php",
+            url: "../controller/perkuliahan-controller.php",
             type: 'post',
             data: {
-              id: id,
+              id,
+              idnd,
               tipe: 'delete'
             },
             success: function(data) {
@@ -511,7 +315,7 @@ function rupiah($angka)
                 'Your file has been deleted.',
                 'success'
               );
-              $('.itemTransaksi' + id).fadeOut(1500, function() {
+              $('.item' + id + idnd).fadeOut(1500, function() {
                 $(this).remove();
               });
             },
@@ -523,38 +327,140 @@ function rupiah($angka)
               );
             }
           });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
           swalWithBootstrapButtons.fire(
             'Cancelled',
-            'Your imaginary file is safe',
+            'Your imaginary file is safe :)',
             'error'
           )
         }
       });
     }
 
-    function ToPDF() {
-      var doc = new jsPDF('p', 'pt', 'a4'),
-        margins = {
-          top: 40,
-          bottom: 60,
-          left: 40,
-          width: 522
-        };
-      doc.setFontSize(26);
-      doc.text(40, 35, 'Laporan Transaksi So-Ping');
+    // DELETE BUTTON
+    $('.btn_delete').on('click', function() {
+      idLama = $(this).data('id');
+      idndLama = $(this).data('idnd');
+      deleteAction(idLama, idndLama);
+    });
 
+    // CREATE
+    $('.btn_simpan').on('click', function() {
+      let id = $('#id').val();
+      let idnd = $('#idnd').val();
+      let nip = $('#nip').val();
+      let nilai = $('#nilai').val();
+      let petugas = $('#petugas').val();
+      if (id == '' || idnd == '' || nip == '' || nilai == '' || petugas == '') {
+        Swal.fire(
+          'Warning!',
+          'Pastikan Semua Data sudah terisi',
+          'warning'
+        );
+      } else {
+        $.ajax({
+          url: "../controller/perkuliahan-controller.php",
+          type: 'post',
+          data: {
+            tipe: 'create',
+            id,
+            idnd,
+            nip,
+            nilai,
+            petugas
+          },
+          success: function(data) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Your work has been saved',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            setTimeout(function() {
+              window.location.reload(1);
+            }, 1600);
+          },
+          error: function(data) {
+            swalWithBootstrapButtons.fire(
+              'Gagal!',
+              'Failed to add data',
+              'error'
+            );
+          }
+        });
+      }
+    });
 
-      doc.autoTable({
-        html: '#table_pdf',
-        margin: {
-          top: 60,
-          right: 40,
-          bottom: 40,
-          left: 40
+    // EDIT BUTTON
+    $('.btn_edit').on('click', function() {
+      idLama = $(this).data('id');
+      idndLama = $(this).data('idnd');
+      editAction(idLama, idndLama);
+    });
+
+    // UPDATE
+    $('.btn_update').on('click', function() {
+      $.ajax({
+        url: "../controller/perkuliahan-controller.php",
+        type: 'post',
+        data: {
+          tipe: 'update',
+          idLama,
+          idndLama,
+          id: $('#edit-id').val(),
+          idnd: $('#edit-idnd').val(),
+          nip: $('#edit-nip').val(),
+          nilai: $('#edit-nilai').val(),
+          petugas: $('#edit-petugas').val()
+        },
+        success: function(data) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Update Success !',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          setTimeout(function() {
+            window.location.reload(1);
+          }, 1600);
+        },
+        error: function(data) {
+          swalWithBootstrapButtons.fire(
+            'Gagal!',
+            'Failed to delete your file.',
+            'error'
+          );
         }
       });
-      doc.save('Laporan_Transaksi_So-Ping.pdf');
+    });
+
+    // EDIT
+    function editAction(id, idnd) {
+      $.ajax({
+        url: "../controller/perkuliahan-controller.php",
+        type: 'post',
+        data: {
+          id,
+          idnd,
+          tipe: 'edit'
+        },
+        success: function(data) {
+          let edit = $.parseJSON(data);
+          $('#edit-id').val(edit[0]['id']);
+          $('#edit-idnd').val(edit[0]['idnd']);
+          $('#edit-nip').val(edit[0]['nip']);
+          $('#edit-nilai').val(edit[0]['nilai']);
+        },
+        error: function(data) {
+          swalWithBootstrapButtons.fire(
+            'Gagal!',
+            'Failed to delete your file.',
+            'error'
+          );
+        }
+      });
     }
   </script>
 </body>

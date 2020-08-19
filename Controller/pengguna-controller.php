@@ -41,5 +41,5 @@ if ($type == 'delete') {
 	$nama = $_POST['nama'];
 	$username = $_POST['username'];
 	$password = md5($_POST['password']);
-	mysqli_query($koneksi, "insert into user value('$id','$username','$password','$nama','kasir')");
+	mysqli_query($koneksi, "insert into user value('$id','$username','$password','$nama','Petugas')");
 }

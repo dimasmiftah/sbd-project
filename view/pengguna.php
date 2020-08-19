@@ -44,10 +44,12 @@ if ($_SESSION['role'] != "admin") {
             </div>
             <p> <?php echo $_SESSION['nama'] ?></p>
           </div>
-          <a class="nav-link sidebar" href="dashboard.php" role="tab" aria-selected="true"> <i class="fas fa-th-large"></i> Dashboard</a>
-          <a class="nav-link sidebar" href="mahasiswa.php" role="tab" aria-selected="false"> <i class="fas fa-box-open"></i> Barang</a>
-          <a class="nav-link active sidebar" href="pengguna.php" role="tab" aria-selected="false"><i class="fas fa-users"></i> Pengguna</a>
-          <a class="nav-link sidebar" href="perkuliahan.php" role="tab" aria-selected="false"><i class="fas fa-shopping-cart"></i> Transaksi</a>
+          <a class="nav-link sidebar" href="dashboard.php" role="tab" aria-selected="true" id="link_dashboard"> <i class="fas fa-th-large"></i> Dashboard</a>
+          <a class="nav-link sidebar" href="mahasiswa.php" role="tab" aria-selected="false" id="link_barang"> <i class="fas fa-users"></i> Mahasiswa</a>
+          <a class="nav-link sidebar" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-user-graduate"></i> Dosen</a>
+          <a class="nav-link sidebar" href="matakuliah.php" role="tab" aria-selected="false"><i class="fas fa-book-open"></i> Mata Kuliah</a>
+          <a class="nav-link sidebar" href="perkuliahan.php" role="tab" aria-selected="false"><i class="fas fa-university"></i> Perkuliahan</a>
+          <a class="nav-link sidebar active" href="pengguna.php" role="tab" aria-selected="false" id="link_user"><i class="fas fa-user"></i> Pengguna</a>
         </div>
       </div>
       <div class="col-9">
@@ -110,9 +112,9 @@ if ($_SESSION['role'] != "admin") {
                         <th scope="col">No.</th>
                         <th scope="col">Nama </th>
                         <th scope="col">Username</th>
-                        <th scope="col">Roles</th>
+                        <th scope="col">Role</th>
                         <th scope="col">
-                          <center>opsi</center>
+                          <center> </center>
                         </th>
                       </tr>
                     </thead>

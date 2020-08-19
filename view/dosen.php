@@ -104,7 +104,7 @@ if ($_SESSION['role'] != "admin") {
                         <th scope="col">NIP</th>
                         <th scope="col">Nama Dosen</th>
                         <th scope="col">
-                          <center>Aksi</center>
+                          <center> </center>
                         </th>
                       </tr>
                     </thead>

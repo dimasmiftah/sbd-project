@@ -113,21 +113,21 @@ if ($_SESSION['role'] == "") {
                     </a>
                   </div>
                   <div class="col-4">
-                    <a href="perkuliahan.php" class="wrapper-card-dashbord kotak-item" style="background:#19AF5D;">
+                    <a href="matakuliah.php" class="wrapper-card-dashbord kotak-item" style="background:#19AF5D;">
                       <div class="row">
                         <div class="col-6">
                           <div class="avatar-wrapper-card-dashbord">
-                            <i class="fas fa-university"></i>
+                            <i class="fas fa-book-open"></i>
                           </div>
                         </div>
                         <div class="col-6">
                           <div class="data-wrapper-card-dashbord">
-                            <h4> Data Perkuliahan </h4>
+                            <h4> Data Mata Kuliah </h4>
                             <?php
                             include '../auth/koneksi.php';
-                            $jumlah = mysqli_query($koneksi, "select COUNT(*) AS jumlah from perkuliahan");
+                            $jumlah = mysqli_query($koneksi, "select COUNT(*) AS jumlah from matakuliah");
                             while ($row = mysqli_fetch_array($jumlah)) {
-                              echo "<P> " . $row['jumlah'] . " perkuliahan</P>";
+                              echo "<P> " . $row['jumlah'] . " mata kuliah</P>";
                             }
                             ?>
                           </div>
