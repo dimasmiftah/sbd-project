@@ -80,7 +80,7 @@ if ($_SESSION['role'] != "admin") {
                             <div class="modal-body">
                               <div class="form-group">
                                 <label for="id">NIP</label>
-                                <input type="number" class="form-control" id="id" aria-describedby="NIP" required>
+                                <input type="number" class="form-control" id="id" maxlength="12" aria-describedby="NIP" required>
                               </div>
                               <div class="form-group">
                                 <label for="nama">Nama Dosen</label>
@@ -101,7 +101,7 @@ if ($_SESSION['role'] != "admin") {
                     <thead class="" style="background:#007BFF;color:#fff;">
                       <tr>
                         <th scope="col">No.</th>
-                        <th scope="col">NIM</th>
+                        <th scope="col">NIP</th>
                         <th scope="col">Nama Dosen</th>
                         <th scope="col">
                           <center>Aksi</center>
@@ -143,7 +143,7 @@ if ($_SESSION['role'] != "admin") {
                         <div class="modal-body">
                           <div class="form-group">
                             <label for="edit-id">NIP</label>
-                            <input type="number" class="form-control" id="edit-id" aria-describedby="NIP" required>
+                            <input type="number" class="form-control" id="edit-id" maxlength="12" aria-describedby="NIP" required>
                           </div>
                           <div class="form-group">
                             <label for="edit-nama">Nama Dosen</label>

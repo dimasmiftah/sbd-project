@@ -80,7 +80,7 @@ if ($_SESSION['role'] != "admin") {
                             <div class="modal-body">
                               <div class="form-group">
                                 <label for="nim">NIM</label>
-                                <input type="number" class="form-control" id="nim" aria-describedby="NIM" required>
+                                <input type="number" class="form-control" id="nim" maxlength="8" aria-describedby="NIM" required>
                               </div>
                               <div class="form-group">
                                 <label for="nama">Nama Mahasiswa</label>
@@ -164,7 +164,7 @@ if ($_SESSION['role'] != "admin") {
                         <div class="modal-body">
                           <div class="form-group">
                             <label for="edit-nim">NIM</label>
-                            <input type="number" class="form-control" id="edit-nim" aria-describedby="NIM" required>
+                            <input type="number" class="form-control" id="edit-nim" maxlength="8" aria-describedby="NIM" required>
                           </div>
                           <div class="form-group">
                             <label for="edit-nama">Nama Mahasiswa</label>
