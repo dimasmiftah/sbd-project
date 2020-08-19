@@ -62,12 +62,12 @@ if ($_SESSION['role'] != "admin") {
                     <div class="col-4">
                       <h3 class="title-table"> Daftar Pengguna </h3>
                     </div>
-                    <div class="col-3">
+                    <div class="col-5">
                     </div>
                     <div class="col-2">
                       <button class="btn btn-primary btn-tambah" data-toggle="modal" data-target="#Tambah" aria-hidden="true" type="button"> Tambah Pengguna</button>
                     </div>
-                    <div class="col-3 list-button">
+                    <div class="col-1 list-button">
                       <div id="Tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
@@ -141,9 +141,6 @@ if ($_SESSION['role'] != "admin") {
                       ?>
                     </tbody>
                   </table>
-                  <a href="#" class="float" data-toggle="modal" data-target="#Tambah" aria-hidden="true">
-                    <i class="fa fa-plus my-float"></i>
-                  </a>
                   <div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
@@ -205,30 +202,6 @@ if ($_SESSION['role'] != "admin") {
       $('.msg_error').hide();
       new $.fn.dataTable.Buttons(codeListTable, {
         buttons: [{
-            extend: 'csv',
-            text: '<i class="fa fa-file"></i> CSV',
-            titleAttr: 'CSV',
-            className: 'btn btn-primary btn-sm',
-            init: function(api, node, config) {
-              $(node).removeClass('btn-default btn-secondary')
-            },
-            exportOptions: {
-              columns: ['0', '1', '2', '3']
-            }
-          },
-          {
-            extend: 'excelHtml5',
-            text: '<i class="fa fa-file-excel"></i> Excel',
-            titleAttr: 'Excel',
-            className: 'btn btn-primary btn-sm',
-            init: function(api, node, config) {
-              $(node).removeClass('btn-default btn-secondary')
-            },
-            exportOptions: {
-              columns: ['0', '1', '2', '3']
-            }
-          },
-          {
             extend: 'pdf',
             text: '<i class="fa fa-file-pdf"></i> PDF',
             titleAttr: 'pdfHtml5',
@@ -240,18 +213,7 @@ if ($_SESSION['role'] != "admin") {
               columns: ['0', '1', '2', '3']
             }
           },
-          {
-            extend: 'print',
-            text: '<i class="fa fa-print"></i> Print',
-            titleAttr: 'Print',
-            className: 'btn btn-primary btn-sm',
-            init: function(api, node, config) {
-              $(node).removeClass('btn-default btn-secondary')
-            },
-            exportOptions: {
-              columns: ['0', '1', '2', '3']
-            }
-          },
+
         ]
       });
       codeListTable.buttons().container().appendTo('.list-button');

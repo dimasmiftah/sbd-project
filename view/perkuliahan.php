@@ -63,11 +63,12 @@ if ($_SESSION['role'] != "admin") {
                     <div class="col-4">
                       <h3 class="title-table"> Daftar Perkuliahan </h3>
                     </div>
-                    <div class="col-6"></div>
+                    <div class="col-5"></div>
                     <div class="col-2">
                       <button class="btn btn-primary btn-tambah" data-toggle="modal" data-target="#Tambah" aria-hidden="true" type="button"> Tambah Data Perkuliahan</button>
                     </div>
-                    <div class="col-3">
+                    <div class="col-1 list-button">
+                      <button class="btn btn-primary btn-sm" style=" float: right;" onclick="ToPDF()"><i class="fa fa-file-pdf"></i> PDF</button>
                       <div id="Tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
@@ -144,8 +145,11 @@ if ($_SESSION['role'] != "admin") {
                     <thead class="" style="background:#007BFF;color:#fff;">
                       <tr>
                         <th scope="col">No.</th>
+                        <th scope="col" hidden>NIM</th>
                         <th scope="col">Nama Mahasiswa</th>
+                        <th scope="col" hidden>NIP</th>
                         <th scope="col">Nama Dosen</th>
+                        <th scope="col" hidden>Kode</th>
                         <th scope="col">Mata Kuliah</th>
                         <th scope="col">SKS</th>
                         <th scope="col">Nilai</th>
@@ -158,7 +162,7 @@ if ($_SESSION['role'] != "admin") {
                     <tbody>
                       <?php
                       include '../auth/koneksi.php';
-                      $perkuliahan = mysqli_query($koneksi, "SELECT mahasiswa.NamaMahasiswa, dosen.NamaDosen, matakuliah.NamaMK, matakuliah.SKS, perkuliahan.NIM, perkuliahan.KodeMK, perkuliahan.Nilai, user.nama
+                      $perkuliahan = mysqli_query($koneksi, "SELECT mahasiswa.NamaMahasiswa, dosen.NamaDosen, matakuliah.NamaMK, matakuliah.SKS, perkuliahan.NIM, perkuliahan.NIP, perkuliahan.KodeMK, perkuliahan.Nilai, user.nama
                       FROM perkuliahan 
                       INNER JOIN mahasiswa ON perkuliahan.NIM = mahasiswa.NIM
                       INNER JOIN dosen ON perkuliahan.NIP = dosen.NIP
@@ -168,8 +172,11 @@ if ($_SESSION['role'] != "admin") {
                       while ($row = mysqli_fetch_array($perkuliahan)) {
                         echo "<tr class='item" . $row['NIM'] . "" . $row['KodeMK'] . "'>
                           <td>" . $i . "</td>
+                          <td hidden>" . $row['NIM'] . "</td>
                           <td>" . $row['NamaMahasiswa'] . "</td>
+                          <td hidden>" . $row['NIP'] . "</td>
                           <td>" . $row['NamaDosen'] . "</td>
+                          <td hidden>" . $row['KodeMK'] . "</td>
                           <td>" . $row['NamaMK'] . "</td>
                           <td>" . $row['SKS'] . "</td>
                           <td>" . $row['Nilai'] . "</td>
@@ -278,9 +285,34 @@ if ($_SESSION['role'] != "admin") {
       const idLama = null;
       const idndLama = null;
       $('#tabel-data').DataTable({
-        "pageLength": 5
+        "pageLength": 44
       })
     });
+
+    // SAVE PDF
+    function ToPDF() {
+      var doc = new jsPDF('p', 'pt', 'a4'),
+        margins = {
+          top: 40,
+          bottom: 60,
+          left: 40,
+          width: 522
+        };
+      doc.setFontSize(26);
+      doc.text(40, 35, 'Laporan Data Perkuliahan');
+
+
+      doc.autoTable({
+        html: '#tabel-data',
+        margin: {
+          top: 60,
+          right: 40,
+          bottom: 40,
+          left: 40
+        }
+      });
+      doc.save('SBD-Akademik-Perkuliahan.pdf');
+    }
 
     // DELETE
     function deleteAction(id, idnd) {

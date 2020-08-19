@@ -62,11 +62,12 @@ if ($_SESSION['role'] != "admin") {
                     <div class="col-4">
                       <h3 class="title-table"> Daftar Mata Kuliah </h3>
                     </div>
-                    <div class="col-6"></div>
+                    <div class="col-5"></div>
                     <div class="col-2">
                       <button class="btn btn-primary btn-tambah" data-toggle="modal" data-target="#Tambah" aria-hidden="true" type="button"> Tambah Data Mata Kuliah</button>
                     </div>
-                    <div class="col-3">
+                    <div class="col-1 list-button">
+                      <button class="btn btn-primary btn-sm" style=" float: right;" onclick="ToPDF()"><i class="fa fa-file-pdf"></i> PDF</button>
                       <div id="Tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
@@ -184,21 +185,40 @@ if ($_SESSION['role'] != "admin") {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="../asset/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.bootstrap4.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.colVis.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+  <script type="text/javascript" src="../Asset/js/jspdf.plugin.autotable.min.js"></script>
   <script>
     $(document).ready(() => {
       const idLama = null;
       $('#tabel-data').DataTable({
-        "pageLength": 5
+        "pageLength": 4
       })
     });
+
+    // SAVE PDF
+    function ToPDF() {
+      var doc = new jsPDF('p', 'pt', 'a4'),
+        margins = {
+          top: 40,
+          bottom: 60,
+          left: 40,
+          width: 522
+        };
+      doc.setFontSize(26);
+      doc.text(40, 35, 'Laporan Data Mata Kuliah');
+
+
+      doc.autoTable({
+        html: '#tabel-data',
+        margin: {
+          top: 60,
+          right: 40,
+          bottom: 40,
+          left: 40
+        }
+      });
+      doc.save('SBD-Akademik-Mata Kuliah.pdf');
+    }
 
     // DELETE
     function deleteAction(id) {
